@@ -3,7 +3,7 @@
 */node_modules
 
 # Ide Files
-*/.vscode/*
+/.vscode/*
 !.vscode/extensions.json
 
 # Build Files
