@@ -1,0 +1,9 @@
+# Package Manager Files
+*/vendor
+
+# Ide Files
+*.vscode
+
+# Environment Files
+.env
+!.env.example
