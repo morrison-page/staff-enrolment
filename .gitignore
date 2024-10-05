@@ -1,8 +1,13 @@
 # Package Manager Files
 */vendor
+*/node_modules
 
 # Ide Files
-*.vscode
+*/.vscode/*
+!.vscode/extensions.json
+
+# Build Files
+*/dist
 
 # Environment Files
 .env
