@@ -22,4 +22,4 @@ jobs:
         run: cd backend && composer install --prefer-dist --no-progress --no-interaction
 
       - name: Run Tests
-        run: ./vendor/bin/phpunit --configuration phpunit.xml
+        run: cd backend && ./vendor/bin/phpunit --configuration phpunit.xml
