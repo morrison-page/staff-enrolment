@@ -6,6 +6,9 @@
 /.vscode/*
 !.vscode/extensions.json
 
+# Testing Files
+.phpunit.result.cache
+
 # Build Files
 */dist
 
