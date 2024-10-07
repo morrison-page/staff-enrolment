@@ -19,7 +19,7 @@ jobs:
           extensions: mbstring, intl, json, libxml, dom, pdo, pdo_mysql
 
       - name: Install Dependencies
-        run: composer install --prefer-dist --no-progress --no-interaction
+        run: cd backend && composer install --prefer-dist --no-progress --no-interaction
 
       - name: Run Tests
-        run: cd backend && ./vendor/bin/phpunit --configuration phpunit.xml
+        run: ./vendor/bin/phpunit --configuration phpunit.xml
