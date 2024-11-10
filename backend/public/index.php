@@ -1,11 +1,23 @@
 <?php
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+require './headers.php';
+require '../classes/Router.php';
+require '../controllers/CoursesController.php';
 
+use Backend\Controllers\CoursesController;
+use Backend\Router;
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    echo json_encode(['message' => 'Test']);
-}
+// Backend Entry Point
+
+// Define Routes
+$router = new Router('/apis');
+
+// Courses
+$router->addRoute('GET', '/courses', [new CoursesController(), 'index']);
+$router->addRoute('GET', '/courses/{id}', [new CoursesController(), 'show']);
+$router->addRoute('POST', '/courses', [new CoursesController(), 'create']);
+$router->addRoute('PUT', '/courses/{id}', [new CoursesController(), 'update']);
+$router->addRoute('DELETE', '/courses/{id}', [new CoursesController(), 'delete']);
+
+$router->dispatch();
+
 ?>
