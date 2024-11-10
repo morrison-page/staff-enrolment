@@ -2,6 +2,7 @@
   "name": "staff-enrolment",
   "private": "true",
   "scripts": {
-    "dev": "sh ./scripts/dev.sh"
+    "dev": "sh ./scripts/dev.sh",
+    "backend": "cd ./backend && php -S localhost:8000 -t ./public/"
   }
 }
