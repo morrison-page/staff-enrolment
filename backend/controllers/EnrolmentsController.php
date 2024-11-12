@@ -2,32 +2,32 @@
 
 namespace Backend\Controllers;
 
-require '../models/EnrollmentsModel.php';
-use Backend\Models\EnrollmentsModel as Enrollments;
+require '../models/EnrolmentsModel.php';
+use Backend\Models\EnrolmentsModel as Enrolments;
 
 class UsersController {
     public function index() {
-        $courses = Enrollments::all();
+        $courses = Enrolments::all();
         $this->render($courses);
     }
 
     public function show($id) {
-        $course = Enrollments::find($id);
+        $course = Enrolments::find($id);
         $this->render($course);
     }
 
     public function create() {
-        Enrollments::create($_POST);
+        Enrolments::create($_POST);
         $this->render(['status' => 'success', 'message' => 'Course created successfully']);
     }
 
     public function update($id) {
-        Enrollments::update($id, $_POST);
+        Enrolments::update($id, $_POST);
         $this->render(['status' => 'success', 'message' => 'Course updated successfully']);
     }
 
     public function delete($id) {
-        Enrollments::delete($id);
+        Enrolments::delete($id);
         $this->render(['status' => 'success', 'message' => 'Course deleted successfully']);
     }
 

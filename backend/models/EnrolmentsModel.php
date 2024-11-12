@@ -6,7 +6,7 @@ require '../classes/Database.php';
 
 use Backend\Database;
 
-class EnrollmentsModel {
+class EnrolmentsModel {
     public static function all() {
         // Logic to get all enrollments
     }
