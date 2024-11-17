@@ -2,12 +2,12 @@
 require './headers.php';
 require '../classes/Router.php';
 require '../controllers/CoursesController.php';
-require '../controllers/UsersController.php';
-require '../controllers/EnrollmentsController.php';
+// require '../controllers/UsersController.php';
+// require '../controllers/EnrollmentsController.php';
 
 use Backend\Controllers\CoursesController;
-use Backend\Controllers\UsersController;
-use Backend\Controllers\EnrollmentsController;
+// use Backend\Controllers\UsersController;
+// use Backend\Controllers\EnrollmentsController;
 use Backend\Router;
 
 // Backend Entry Point

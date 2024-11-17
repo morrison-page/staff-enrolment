@@ -23,8 +23,10 @@ class Router {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
 
         foreach ($this->routes as $route) {
-            if ($route['method'] === $requestMethod && $route['route'] === $requestUri) {
-                call_user_func($route['callback']);
+            $pattern = preg_replace('/\{[a-zA-Z0-9_]+\}/', '([a-zA-Z0-9-]+)', $route['route']);
+            if ($route['method'] === $requestMethod && preg_match('#^' . $pattern . '$#', $requestUri, $matches)) {
+                array_shift($matches); // Remove the full match
+                call_user_func_array($route['callback'], $matches);
                 return;
             }
         }
