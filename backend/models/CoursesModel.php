@@ -28,6 +28,23 @@ class CoursesModel {
 
     public static function find($id) {
         // Logic to find a course by ID
+        $db = new Database();
+        $conn = $db->getConnection();
+        $sql = "
+            SELECT
+                course_id,
+                course_title,
+                DATE_FORMAT(course_date, '%d/%m/%Y') AS course_date,
+                course_duration,
+                max_attendees,
+                description
+            FROM
+                course_details
+            WHERE
+                course_id = '{$id}'
+            ";
+        $result = mysqli_query($conn, $sql);
+        return $result->fetch_assoc();
     }
 
     public static function create($data) {
