@@ -49,6 +49,26 @@ class CoursesModel {
 
     public static function create($data) {
         // Logic to create a new course
+        $db = new Database();
+        $conn = $db->getConnection();
+        $stmt = $conn->prepare("
+            INSERT INTO course_details (
+                course_title,
+                course_date,
+                course_duration,
+                max_attendees,
+                description
+            ) VALUES (?, ?, ?, ?, ?)
+        ");
+        $stmt->bind_param(
+            'ssiis',
+            $data['course_title'],
+            $data['course_date'],
+            $data['course_duration'],
+            $data['max_attendees'],
+            $data['description']
+        );
+        $stmt->execute();
     }
 
     public static function update($id, $data) {
