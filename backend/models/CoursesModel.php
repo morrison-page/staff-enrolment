@@ -58,7 +58,7 @@ class CoursesModel {
                 course_duration,
                 max_attendees,
                 description
-            ) VALUES (?, ?, ?, ?, ?)
+            ) VALUES (?, STR_TO_DATE(?, '%d/%m/%Y'), ?, ?, ?)
         ");
         $stmt->bind_param(
             'ssiis',

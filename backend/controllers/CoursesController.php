@@ -20,15 +20,6 @@ class CoursesController {
     }
 
     public function create() {
-        // Get Data from Request
-        $data = [
-            'course_title' => $_POST['course_title'],
-            'course_date' => $_POST['course_date'],
-            'course_duration' => $_POST['course_duration'],
-            'max_attendees' => $_POST['max_attendees'],
-            'description' => $_POST['description']
-        ];
-
         // Define how to Sanitise Data
         $filters = [
             'course_title' => [
@@ -40,10 +31,10 @@ class CoursesController {
             ],
             'course_date' => [
                 'filter' => FILTER_CALLBACK,
-                'options' => function($value) { // TODO: Fix date Validation
+                'options' => function($value) {
                     $value = htmlspecialchars(trim($value));
-                    $date = DateTime::createFromFormat('d-m-Y', $value);
-                    return $date && $date->format('d-m-Y') === $value ? $value : false;
+                    $date = DateTime::createFromFormat('d/m/Y', $value);
+                    return $date && $date->format('d/m/Y') === $value ? $value : false;
                 }
             ],
             'course_duration' => [
@@ -69,13 +60,12 @@ class CoursesController {
             ]
         ];
 
-        // Sanitise Data
+        // Grab and Sanitise Data
         $sanitisedData = filter_input_array(INPUT_POST, $filters);
 
         foreach ($sanitisedData as $key => $value) {
             if ($value === false || $value === null) {
-                $this->render([$key]);
-                // $this->render(['status' => 'error', 'message' => 'Missing/Invalid Value(s) in Request']);
+                $this->render(['status' => 'error', 'message' => 'Missing/Invalid Value(s) in Request']);
                 return;
             }
         }
