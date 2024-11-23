@@ -33,8 +33,36 @@ class Database {
         }
     }
 
-    public function getConnection() {
-        return $this->conn;
+    public function executeScalarQuery($query, $params = []) {
+        $stmt = $this->conn->prepare($query);
+        if ($params) {
+            $stmt->bind_param(...$params);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_row();
+        return $row[0];
+    }
+
+    public function executeNonQuery($query, $params = []) {
+        $stmt = $this->conn->prepare($query);
+        if ($params) {
+            $stmt->bind_param(...$params);
+        }
+        $sucess = $stmt->execute();
+        $stmt->close();
+        return $sucess;
+    }
+
+    public function executeQuery($query, $params = []) {
+        $stmt = $this->conn->prepare($query);
+        if ($params) {
+            $stmt->bind_param(...$params);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 }
 
