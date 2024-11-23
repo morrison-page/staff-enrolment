@@ -13,13 +13,14 @@ class Router {
     public function addRoute($method, $route, $callback) {
         $this->routes[] = [
             'method' => $method,
-            'route' => $this->prefix . $route,
+            'route' => rtrim($this->prefix . $route, '/'), // Remove trailing slash from route
             'callback' => $callback
         ];
     }
 
     public function dispatch() {
         $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $requestUri = rtrim($requestUri, '/'); // Allow trailing slash in request URI by removing it
         $requestMethod = $_SERVER['REQUEST_METHOD'];
 
         foreach ($this->routes as $route) {
