@@ -2,8 +2,6 @@
 
 namespace Backend\Models;
 
-require '../classes/Database.php';
-
 use Backend\Database;
 
 class CoursesModel {
@@ -60,8 +58,7 @@ class CoursesModel {
                 description
             ) VALUES (?, STR_TO_DATE(?, '%d/%m/%Y'), ?, ?, ?)
         ");
-        $stmt->bind_param(
-            'ssiis',
+        $stmt->bind_param('ssiis',
             $data['course_title'],
             $data['course_date'],
             $data['course_duration'],

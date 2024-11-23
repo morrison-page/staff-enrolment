@@ -5,7 +5,7 @@ namespace Backend\Controllers;
 require '../models/EnrolmentsModel.php';
 use Backend\Models\EnrolmentsModel as Enrolments;
 
-class UsersController {
+class EnrolmentsController {
     public function index() {
         $courses = Enrolments::all();
         $this->render($courses);

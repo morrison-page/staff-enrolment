@@ -2,8 +2,6 @@
 
 namespace Backend\Models;
 
-require '../classes/Database.php';
-
 use Backend\Database;
 
 class EnrolmentsModel {
