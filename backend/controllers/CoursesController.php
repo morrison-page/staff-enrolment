@@ -10,12 +10,22 @@ class CoursesController {
     public function index() {
         // Get all courses logic
         $courses = Courses::all();
+        if (empty($courses)) {
+            http_response_code(404); // Not Found
+            $this->render(['status' => 'error', 'message' => 'No Courses Found']);
+            return;
+        }
         $this->render($courses);
     }
 
     public function show($id) {
         // Get a single course logic
         $course = Courses::find($id);
+        if (empty($course)) {
+            http_response_code(404); // Not Found
+            $this->render(['status' => 'error', 'message' => 'Course not found']);
+            return;
+        }
         $this->render($course);
     }
 
@@ -65,24 +75,40 @@ class CoursesController {
 
         foreach ($sanitisedData as $key => $value) {
             if ($value === false || $value === null) {
+                http_response_code(400); // Bad Request
                 $this->render(['status' => 'error', 'message' => 'Missing/Invalid Value(s) in Request']);
                 return;
             }
         }
 
-        Courses::create($sanitisedData);
+        $sucess = Courses::create($sanitisedData);
+        if (!$sucess) {
+            http_response_code(500); // Internal Server Error
+            $this->render(['status' => 'error', 'message' => 'Internal Server Error']);
+            return;
+        }
         $this->render(['status' => 'success', 'message' => 'Course created successfully']);
     }
 
     public function update($id) {
         // Update a single course logic
-        Courses::update($id, $_POST);
+        $sucess = Courses::update($id, $_POST);
+        if (!$sucess) {
+            http_response_code(500); // Internal Server Error
+            $this->render(['status' => 'error', 'message' => 'Internal Server Error']);
+            return;
+        }
         $this->render(['status' => 'success', 'message' => 'Course updated successfully']);
     }
 
     public function delete($id) {
         // Delete a single course logic
-        Courses::delete($id);
+        $sucess = Courses::delete($id);
+        if (!$sucess) {
+            http_response_code(500); // Internal Server Error
+            $this->render(['status' => 'error', 'message' => 'Internal Server Error']);
+            return;
+        }
         $this->render(['status' => 'success', 'message' => 'Course deleted successfully']);
     }
 
