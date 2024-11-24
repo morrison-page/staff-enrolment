@@ -15,7 +15,7 @@ class Database {
 
     private function loadEnvironmentVariables() {
         require __DIR__ . "/../vendor/autoload.php";
-        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
         $dotenv->load();
     }
 
