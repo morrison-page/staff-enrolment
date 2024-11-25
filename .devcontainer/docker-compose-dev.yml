@@ -1,0 +1,12 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.Backend.Dev
+    ports:
+      - "80:80"
+    env_file:
+      - ../backend/.env
+    volumes:
+      - ../backend:/var/www/html
+      - ..:/workspace

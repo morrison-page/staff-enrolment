@@ -1,0 +1,19 @@
+{
+  "name": "Staff Enrolment - Dev Container",
+  "dockerComposeFile": "docker-compose-dev.yml",
+  "service": "backend",
+  "workspaceFolder": "/workspaces/staff-enrolment",
+  "forwardPorts": [80],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker", // Docker Support
+        "bmewburn.vscode-intelephense-client", // PHP IntelliSense
+        "geeebe.duplicate", // Duplicate Line 'Ctrl + D'
+        "github.vscode-github-actions", // GitHub Actions
+        "Vue.volar", // Vue 3 Support
+        "hollowtree.vue-snippets" // Vue 3 Snippets
+      ]
+    }
+  }
+}
