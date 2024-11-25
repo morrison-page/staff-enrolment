@@ -1,9 +1,8 @@
 # Root
 .git/
+.devcontainer
 .github/
-.vscode/
 database/
-scripts/
 .dockerignore
 .gitignore
 docker-compose.yml
