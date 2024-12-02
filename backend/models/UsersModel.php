@@ -27,6 +27,25 @@ class UsersModel {
 
     public static function find($id) {
         // Logic to find a user by ID
+        $db = new Database();
+        $query = "
+            SELECT
+                user_id,
+                email,
+                first_name,
+                last_name,
+                job_title,
+                access_level,
+                login_attempts,
+                DATE_FORMAT(last_login_attempt, '%d/%m/%Y %H:%i:%s') as last_login_attempt
+            FROM
+                user_details
+            WHERE
+                user_id = ? OR email = ?
+        ";
+        $params = ['ss', $id, $id];
+        $result = $db->executeQuery($query, $params);
+        return $result;
     }
 
     public static function create($data) {

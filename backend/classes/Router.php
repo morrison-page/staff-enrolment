@@ -24,7 +24,7 @@ class Router {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
 
         foreach ($this->routes as $route) {
-            $pattern = preg_replace('/\{[a-zA-Z0-9_]+\}/', '([a-zA-Z0-9-]+)', $route['route']);
+            $pattern = preg_replace('/\{[a-zA-Z0-9_]+\}/', '([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})', $route['route']);
             if ($route['method'] === $requestMethod && preg_match('#^' . $pattern . '$#', $requestUri, $matches)) {
                 array_shift($matches); // Remove the full match
                 call_user_func_array($route['callback'], $matches);
