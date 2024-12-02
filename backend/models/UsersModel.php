@@ -7,6 +7,22 @@ use Backend\Database;
 class UsersModel {
     public static function all() {
         // Logic to get all users
+        $db = new Database();
+        $sql = "
+            SELECT
+                user_id,
+                email,
+                first_name,
+                last_name,
+                job_title,
+                access_level,
+                login_attempts,
+                DATE_FORMAT(last_login_attempt, '%d/%m/%Y %H:%i:%s') as last_login_attempt
+            FROM
+                user_details
+        ";
+        $result = $db->executeQuery($sql);
+        return $result;
     }
 
     public static function find($id) {
