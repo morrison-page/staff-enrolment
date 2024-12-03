@@ -3,6 +3,7 @@
 namespace Backend\Models;
 
 use Backend\Database;
+use Dotenv\Dotenv;
 
 class UsersModel {
     public static function all() {
@@ -50,9 +51,13 @@ class UsersModel {
 
     public static function create($data) {
         // Logic to create a new user
+        require_once __DIR__ . "/../vendor/autoload.php";
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+        $dotenv->load();
+        $dotenv->load();
         $salt = random_bytes(16);
-        $pepper = "superdupersecretpasswordpepper";
-        $password = "Hello World!";
+        $pepper = $_ENV['PASSWORD_PEPPER'];
+        $password = $data['password'];
         $pepperedPassword = $password . $pepper;
         $saltedPassword = bin2hex($salt) . $pepperedPassword;
         $options = [
@@ -61,7 +66,34 @@ class UsersModel {
             'threads' => 4          // 4 threads
         ];
         $hashedPassword = password_hash($saltedPassword, PASSWORD_ARGON2ID, $options);
+        $accessLevel = 'user';
 
+        $db = new Database();
+        $query = "
+            INSERT INTO user_details (
+                user_id,
+                email,
+                first_name,
+                last_name,
+                password,
+                salt,
+                job_title,
+                access_level
+            ) VALUES (CONCAT('USER-', UUID()), ?, ?, ?, ?, ?, ?, ?)
+        ";
+
+        $params = ['sssssss',
+            $data['email'],
+            $data['first_name'],
+            $data['last_name'],
+            $hashedPassword,
+            $salt,
+            $data['job_title'],
+            $accessLevel,
+        ];
+        
+        $result = $db->executeNonQuery($query, $params);
+        return $result;
     }
 
     public static function update($id, $data) {

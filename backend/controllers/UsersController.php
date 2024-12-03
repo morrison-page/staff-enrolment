@@ -18,17 +18,17 @@ class UsersController {
 
     public function create() {
         Users::create($_POST);
-        $this->render(['status' => 'success', 'message' => 'Course created successfully']);
+        $this->render(['status' => 'success', 'message' => 'User created successfully']);
     }
 
     public function update($id) {
         Users::update($id, $_POST);
-        $this->render(['status' => 'success', 'message' => 'Course updated successfully']);
+        $this->render(['status' => 'success', 'message' => 'User updated successfully']);
     }
 
     public function delete($id) {
         Users::delete($id);
-        $this->render(['status' => 'success', 'message' => 'Course deleted successfully']);
+        $this->render(['status' => 'success', 'message' => 'User deleted successfully']);
     }
 
     private function render($data) {
