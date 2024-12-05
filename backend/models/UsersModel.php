@@ -54,7 +54,6 @@ class UsersModel {
         require_once __DIR__ . "/../vendor/autoload.php";
         $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
         $dotenv->load();
-        $dotenv->load();
         $salt = random_bytes(16);
         $pepper = $_ENV['PASSWORD_PEPPER'];
         $password = $data['password'];
@@ -98,6 +97,28 @@ class UsersModel {
 
     public static function update($id, $data) {
         // Logic to update a user
+        $db = new Database();
+        $query = "
+            UPDATE user_details
+            SET
+                email = ?,
+                first_name = ?,
+                last_name = ?,
+                job_title = ?,
+                access_level = ?
+            WHERE
+                user_id = ?
+        ";
+        $params = ['ssssss',
+            $data['email'],
+            $data['first_name'],
+            $data['last_name'],
+            $data['job_title'],
+            $data['access_level'],
+            $id
+        ];
+        $result = $db->executeNonQuery($query, $params);
+        return $result;        
     }
 
     public static function delete($id) {
