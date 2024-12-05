@@ -102,6 +102,14 @@ class UsersModel {
 
     public static function delete($id) {
         // Logic to delete a user
+        $db = new Database();
+        $query = "
+            DELETE FROM user_details
+            WHERE user_id = ?
+        ";
+        $params = ['s', $id];
+        $result = $db->executeNonQuery($query, $params);
+        return $result;
     }
 }
 
