@@ -18,17 +18,17 @@ class EnrolmentsController {
 
     public function create() {
         Enrolments::create($_POST);
-        $this->render(['status' => 'success', 'message' => 'Course created successfully']);
+        $this->render(['status' => 'success', 'message' => 'Enrolment created successfully']);
     }
 
     public function update($id) {
         Enrolments::update($id, $_POST);
-        $this->render(['status' => 'success', 'message' => 'Course updated successfully']);
+        $this->render(['status' => 'success', 'message' => 'Enrolment updated successfully']);
     }
 
     public function delete($id) {
         Enrolments::delete($id);
-        $this->render(['status' => 'success', 'message' => 'Course deleted successfully']);
+        $this->render(['status' => 'success', 'message' => 'Enrolment deleted successfully']);
     }
 
     private function render($data) {
