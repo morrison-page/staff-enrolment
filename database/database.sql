@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 02, 2024 at 09:15 PM
+-- Generation Time: Dec 08, 2024 at 09:06 PM
 -- Server version: 10.11.6-MariaDB-0+deb12u1
 -- PHP Version: 8.3.12
 
@@ -24,18 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `course_attendance`
---
-
-CREATE TABLE `course_attendance` (
-  `attendance_id` char(43) NOT NULL DEFAULT concat('ATTEND-',uuid()),
-  `course_id` char(43) NOT NULL,
-  `current_enrollment_count` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `course_details`
 --
 
@@ -45,24 +33,25 @@ CREATE TABLE `course_details` (
   `course_date` date NOT NULL,
   `course_duration` int(11) NOT NULL,
   `max_attendees` int(11) NOT NULL,
-  `description` text DEFAULT NULL
+  `description` text DEFAULT NULL,
+  `status` enum('completed','cancelled','pending') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
 -- Dumping data for table `course_details`
 --
 
-INSERT INTO `course_details` (`course_id`, `course_title`, `course_date`, `course_duration`, `max_attendees`, `description`) VALUES
-('COURSE-4a91e5c7-a8ea-11ef-8c1a-005056031580', 'Introduction to Python', '2024-11-13', 3, 25, 'Learn the basics of Python programming in this introductory course'),
-('COURSE-4a91e75b-a8ea-11ef-8c1a-005056031580', 'Data Science Basics', '2024-11-16', 2, 19, 'An overview of data science, covering key concepts and tools'),
-('COURSE-4a91e78e-a8ea-11ef-8c1a-005056031580', 'Advanced Machine Learning', '2024-12-04', 3, 38, 'Deep dive into machine learning algorithms and advanced techniques'),
-('COURSE-4a91e7b6-a8ea-11ef-8c1a-005056031580', 'Cloud Computing Essentials', '2024-11-19', 3, 37, 'Explore the fundamentals of cloud computing and its applications'),
-('COURSE-4a91e7d1-a8ea-11ef-8c1a-005056031580', 'Cybersecurity Fundamentals', '2024-12-03', 2, 11, 'Understand core cybersecurity principles to protect digital assets'),
-('COURSE-4a91e7ed-a8ea-11ef-8c1a-005056031580', 'Web Development Bootcamp', '2024-11-30', 3, 14, 'Comprehensive web development course covering front-end and back-end'),
-('COURSE-4a91e809-a8ea-11ef-8c1a-005056031580', 'AI Ethics and Society', '2024-11-15', 2, 12, 'Discuss ethical concerns in AI and its societal implications'),
-('COURSE-4a91e822-a8ea-11ef-8c1a-005056031580', 'Blockchain Technology', '2024-11-23', 1, 45, 'Learn about blockchain, cryptocurrency, and decentralized systems'),
-('COURSE-4a91e83c-a8ea-11ef-8c1a-005056031580', 'Digital Marketing Strategy', '2024-12-10', 3, 20, 'Master digital marketing tactics for effective online campaigns'),
-('COURSE-4a91e854-a8ea-11ef-8c1a-005056031580', 'Agile Project Management', '2024-11-22', 2, 36, 'An introduction to Agile methodologies in project management');
+INSERT INTO `course_details` (`course_id`, `course_title`, `course_date`, `course_duration`, `max_attendees`, `description`, `status`) VALUES
+('COURSE-4a91e5c7-a8ea-11ef-8c1a-005056031580', 'Introduction to Python', '2024-11-13', 3, 25, 'Learn the basics of Python programming in this introductory course', 'completed'),
+('COURSE-4a91e75b-a8ea-11ef-8c1a-005056031580', 'Data Science Basics', '2024-11-16', 2, 19, 'An overview of data science, covering key concepts and tools', 'completed'),
+('COURSE-4a91e78e-a8ea-11ef-8c1a-005056031580', 'Advanced Machine Learning', '2024-12-04', 3, 38, 'Deep dive into machine learning algorithms and advanced techniques', 'completed'),
+('COURSE-4a91e7b6-a8ea-11ef-8c1a-005056031580', 'Cloud Computing Essentials', '2024-11-19', 3, 37, 'Explore the fundamentals of cloud computing and its applications', 'completed'),
+('COURSE-4a91e7d1-a8ea-11ef-8c1a-005056031580', 'Cybersecurity Fundamentals', '2024-12-03', 2, 11, 'Understand core cybersecurity principles to protect digital assets', 'cancelled'),
+('COURSE-4a91e7ed-a8ea-11ef-8c1a-005056031580', 'Web Development Bootcamp', '2024-11-30', 3, 14, 'Comprehensive web development course covering front-end and back-end', 'completed'),
+('COURSE-4a91e809-a8ea-11ef-8c1a-005056031580', 'AI Ethics and Society', '2024-11-15', 2, 12, 'Discuss ethical concerns in AI and its societal implications', 'completed'),
+('COURSE-4a91e822-a8ea-11ef-8c1a-005056031580', 'Blockchain Technology', '2024-11-23', 1, 45, 'Learn about blockchain, cryptocurrency, and decentralized systems', 'completed'),
+('COURSE-4a91e83c-a8ea-11ef-8c1a-005056031580', 'Digital Marketing Strategy', '2024-12-10', 3, 20, 'Master digital marketing tactics for effective online campaigns', 'pending'),
+('COURSE-4a91e854-a8ea-11ef-8c1a-005056031580', 'Agile Project Management', '2024-11-22', 2, 36, 'An introduction to Agile methodologies in project management', 'cancelled');
 
 -- --------------------------------------------------------
 
@@ -74,8 +63,7 @@ CREATE TABLE `enrolment_details` (
   `enrollment_id` char(43) NOT NULL DEFAULT concat('ENROLL-',uuid()),
   `user_id` char(41) NOT NULL,
   `course_id` char(43) NOT NULL,
-  `enrolled_date` date DEFAULT curdate(),
-  `status` enum('enrolled','completed','canceled') NOT NULL
+  `enrolled_date` date DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
@@ -120,13 +108,6 @@ INSERT INTO `user_details` (`user_id`, `email`, `password`, `salt`, `first_name`
 --
 
 --
--- Indexes for table `course_attendance`
---
-ALTER TABLE `course_attendance`
-  ADD PRIMARY KEY (`attendance_id`),
-  ADD KEY `course_id` (`course_id`);
-
---
 -- Indexes for table `course_details`
 --
 ALTER TABLE `course_details`
@@ -150,12 +131,6 @@ ALTER TABLE `user_details`
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `course_attendance`
---
-ALTER TABLE `course_attendance`
-  ADD CONSTRAINT `course_attendance_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course_details` (`course_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `enrolment_details`
