@@ -15,7 +15,8 @@ class CoursesModel {
                 DATE_FORMAT(course_date, '%d/%m/%Y') AS course_date,
                 course_duration,
                 max_attendees,
-                description
+                description,
+                status
             FROM
                 course_details
             ";
@@ -33,7 +34,8 @@ class CoursesModel {
                 DATE_FORMAT(course_date, '%d/%m/%Y') AS course_date,
                 course_duration,
                 max_attendees,
-                description
+                description,
+                status
             FROM
                 course_details
             WHERE
@@ -77,16 +79,18 @@ class CoursesModel {
                 course_date = STR_TO_DATE(?, '%Y-%m-%d'),
                 course_duration = ?,
                 max_attendees = ?,
-                description = ?
+                description = ?,
+                status = ?
             WHERE
                 course_id = ?
         ";
-        $params = ['ssiiss',
+        $params = ['ssiisss',
             $data['course_title'],
             $data['course_date'],
             $data['course_duration'],
             $data['max_attendees'],
             $data['description'],
+            $data['status'],
             $id
         ];
         $result = $db->executeNonQuery($sql, $params);
