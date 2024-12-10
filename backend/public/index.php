@@ -31,11 +31,11 @@ $router->addRoute('PUT', '/courses/{id}', [new CoursesController(), 'update']);
 $router->addRoute('DELETE', '/courses/{id}', [new CoursesController(), 'delete']);
 
 // Enrollments
-$router->addRoute('GET', '/enrollments', [new EnrolmentsController(), 'index']);
-$router->addRoute('GET', '/enrollments/{id}', [new EnrolmentsController(), 'show']);
-$router->addRoute('POST', '/enrollments', [new EnrolmentsController(), 'create']);
-$router->addRoute('PUT', '/enrollments/{id}', [new EnrolmentsController(), 'update']);
-$router->addRoute('DELETE', '/enrollments/{id}', [new EnrolmentsController(), 'delete']);
+$router->addRoute('GET', '/enrolments', [new EnrolmentsController(), 'index']);
+$router->addRoute('GET', '/enrolments/{id}', [new EnrolmentsController(), 'show']);
+$router->addRoute('POST', '/enrolments', [new EnrolmentsController(), 'create']);
+$router->addRoute('PUT', '/enrolments/{id}', [new EnrolmentsController(), 'update']);
+$router->addRoute('DELETE', '/enrolments/{id}', [new EnrolmentsController(), 'delete']);
 
 $router->dispatch();
 
