@@ -23,6 +23,21 @@ class EnrolmentsModel {
 
     public static function find($id) {
         // Logic to find an enrollment by ID
+        $db = new Database();
+        $sql = "
+            SELECT
+                enrolment_id,
+                user_id,
+                course_id,
+                DATE_FORMAT(enrolment_date, '%d/%m/%Y') as enrolment_date
+            FROM
+                enrolment_details
+            WHERE
+                enrolment_id = ?
+        ";
+        $params = ['s', $id];
+        $result = $db->executeQuery($sql, $params);
+        return $result;
     }
 
     public static function create($data) {
