@@ -60,7 +60,7 @@ INSERT INTO `course_details` (`course_id`, `course_title`, `course_date`, `cours
 --
 
 CREATE TABLE `enrolment_details` (
-  `enrolment_id` char(43) NOT NULL DEFAULT 'concat(''ENROLL-'',uuid())',
+  `enrolment_id` char(43) NOT NULL DEFAULT concat('ENROL-',uuid()),
   `user_id` char(41) NOT NULL,
   `course_id` char(43) NOT NULL,
   `enrolment_date` date DEFAULT curdate()
