@@ -46,6 +46,24 @@ class EnrolmentsModel {
 
     public static function update($id, $data) {
         // Logic to update an enrollment
+        $db = new Database();
+        $sql = "
+            UPDATE enrolment_details
+            SET
+                user_id = ?,
+                course_id = ?,
+                enrolment_date = STR_TO_DATE(?, '%Y-%m-%d')
+            WHERE 
+                enrolment_id = ?
+        ";
+        $params = ['ssss',
+            $data['user_id'],
+            $data['course_id'],
+            $data['enrolment_date'],
+            $id
+        ];
+        $result = $db->executeNonQuery($sql, $params);
+        return $result;
     }
 
     public static function delete($id) {
