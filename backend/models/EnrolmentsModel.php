@@ -42,6 +42,19 @@ class EnrolmentsModel {
 
     public static function create($data) {
         // Logic to create a new enrollment
+        $db = new Database();
+        $sql = "
+            INSERT INTO enrolment_details (
+                user_id,
+                course_id
+            ) VALUES (?, ?)
+        ";
+        $params = ['ss',
+            $data['user_id'],
+            $data['course_id']
+        ];
+        $result = $db->executeNonQuery($sql, $params);
+        return $result;
     }
 
     public static function update($id, $data) {
