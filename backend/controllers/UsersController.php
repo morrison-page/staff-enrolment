@@ -4,6 +4,7 @@ namespace Backend\Controllers;
 
 require '../models/UsersModel.php';
 use Backend\Models\UsersModel as Users;
+use Backend\Classes\HttpData;
 
 class UsersController {
     public function index() {
@@ -17,12 +18,12 @@ class UsersController {
     }
 
     public function create() {
-        Users::create($_POST);
+        Users::create(HttpData::post());
         $this->render(['status' => 'success', 'message' => 'User created successfully']);
     }
 
     public function update($id) {
-        Users::update($id, $_POST);
+        Users::update($id, HttpData::put());
         $this->render(['status' => 'success', 'message' => 'User updated successfully']);
     }
 

@@ -4,6 +4,7 @@ namespace Backend\Controllers;
 
 require '../models/EnrolmentsModel.php';
 use Backend\Models\EnrolmentsModel as Enrolments;
+use Backend\Classes\HttpData;
 
 class EnrolmentsController {
     public function index() {
@@ -17,12 +18,12 @@ class EnrolmentsController {
     }
 
     public function create() {
-        Enrolments::create($_POST);
+        Enrolments::create(HttpData::post());
         $this->render(['status' => 'success', 'message' => 'Enrolment created successfully']);
     }
 
     public function update($id) {
-        Enrolments::update($id, $_POST);
+        Enrolments::update($id, HttpData::put());
         $this->render(['status' => 'success', 'message' => 'Enrolment updated successfully']);
     }
 

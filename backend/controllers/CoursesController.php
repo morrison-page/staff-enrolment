@@ -4,6 +4,7 @@ namespace Backend\Controllers;
 
 require '../models/CoursesModel.php';
 use Backend\Models\CoursesModel as Courses;
+use Backend\Classes\HttpData;
 use DateTime;
 
 class CoursesController {
@@ -92,7 +93,7 @@ class CoursesController {
 
     public function update($id) {
         // Update a single course logic
-        $sucess = Courses::update($id, $_POST);
+        $sucess = Courses::update($id, HttpData::put());
         if (!$sucess) {
             http_response_code(500); // Internal Server Error
             $this->render(['status' => 'error', 'message' => 'Internal Server Error']);

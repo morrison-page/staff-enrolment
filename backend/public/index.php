@@ -1,6 +1,7 @@
 <?php
 require './headers.php';
 require '../classes/Database.php';
+require '../classes/HttpData.php';
 require '../classes/Router.php';
 require '../controllers/CoursesController.php';
 require '../controllers/UsersController.php';
