@@ -81,6 +81,15 @@ class EnrolmentsModel {
 
     public static function delete($id) {
         // Logic to delete an enrollment
+        $db = new Database();
+        $sql = "
+            DELETE FROM enrolment_details
+            WHERE
+                enrolment_id = ?
+        ";
+        $params = ['s', $id];
+        $result = $db->executeNonQuery($sql, $params);
+        return $result;
     }
 }
 
