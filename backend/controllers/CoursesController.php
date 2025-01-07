@@ -3,11 +3,13 @@
 namespace Backend\Controllers;
 
 require '../models/CoursesModel.php';
+
+use Backend\Interfaces\ControllerInterface;
 use Backend\Models\CoursesModel as Courses;
 use Backend\Classes\HttpData;
 use DateTime;
 
-class CoursesController {
+class CoursesController implements ControllerInterface {
     public function index() {
         // Get all courses logic
         $courses = Courses::all();

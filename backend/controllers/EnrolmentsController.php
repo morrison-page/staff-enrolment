@@ -3,10 +3,12 @@
 namespace Backend\Controllers;
 
 require '../models/EnrolmentsModel.php';
+
+use Backend\Interfaces\ControllerInterface;
 use Backend\Models\EnrolmentsModel as Enrolments;
 use Backend\Classes\HttpData;
 
-class EnrolmentsController {
+class EnrolmentsController implements ControllerInterface {
     public function index() {
         $courses = Enrolments::all();
         $this->render($courses);

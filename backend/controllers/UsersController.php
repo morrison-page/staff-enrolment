@@ -3,10 +3,12 @@
 namespace Backend\Controllers;
 
 require '../models/UsersModel.php';
+
+use Backend\Interfaces\ControllerInterface;
 use Backend\Models\UsersModel as Users;
 use Backend\Classes\HttpData;
 
-class UsersController {
+class UsersController implements ControllerInterface {
     public function index() {
         $courses = Users::all();
         $this->render($courses);
