@@ -2,10 +2,11 @@
 
 namespace Backend\Models;
 
+use Backend\Interfaces\ModelInterface;
 use Backend\Database;
 use Dotenv\Dotenv;
 
-class UsersModel {
+class UsersModel implements ModelInterface {
     public static function all() {
         // Logic to get all users
         $db = new Database();

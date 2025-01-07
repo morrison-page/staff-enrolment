@@ -2,9 +2,10 @@
 
 namespace Backend\Models;
 
+use Backend\Interfaces\ModelInterface;
 use Backend\Database;
 
-class EnrolmentsModel {
+class EnrolmentsModel implements ModelInterface {
     public static function all() {
         // Logic to get all enrollments
         $db = new Database();

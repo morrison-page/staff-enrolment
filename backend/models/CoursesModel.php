@@ -2,9 +2,10 @@
 
 namespace Backend\Models;
 
+use Backend\Interfaces\ModelInterface;
 use Backend\Database;
 
-class CoursesModel {
+class CoursesModel implements ModelInterface {
     public static function all() {
         // Implementation of getting all courses
         $db = new Database();
