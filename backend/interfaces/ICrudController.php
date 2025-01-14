@@ -2,7 +2,7 @@
 
 namespace Backend\Interfaces;
 
-interface ControllerInterface {
+interface IcrudController {
     public function index();
     public function show($id);
     public function create();

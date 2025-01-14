@@ -4,12 +4,12 @@ namespace Backend\Controllers;
 
 require '../models/CoursesModel.php';
 
-use Backend\Interfaces\ControllerInterface;
+use Backend\Interfaces\IcrudController;
 use Backend\Models\CoursesModel as Courses;
 use Backend\Classes\HttpData;
 use DateTime;
 
-class CoursesController implements ControllerInterface {
+class CoursesController implements IcrudController {
     public function index() {
         // Get all courses logic
         $courses = Courses::all();

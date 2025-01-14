@@ -4,11 +4,11 @@ namespace Backend\Controllers;
 
 require '../models/EnrolmentsModel.php';
 
-use Backend\Interfaces\ControllerInterface;
+use Backend\Interfaces\IcrudController;
 use Backend\Models\EnrolmentsModel as Enrolments;
 use Backend\Classes\HttpData;
 
-class EnrolmentsController implements ControllerInterface {
+class EnrolmentsController implements IcrudController {
     public function index() {
         $courses = Enrolments::all();
         $this->render($courses);

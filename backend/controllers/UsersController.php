@@ -4,11 +4,11 @@ namespace Backend\Controllers;
 
 require '../models/UsersModel.php';
 
-use Backend\Interfaces\ControllerInterface;
+use Backend\Interfaces\IcrudController;
 use Backend\Models\UsersModel as Users;
 use Backend\Classes\HttpData;
 
-class UsersController implements ControllerInterface {
+class UsersController implements IcrudController {
     public function index() {
         $courses = Users::all();
         $this->render($courses);
