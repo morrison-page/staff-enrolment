@@ -2,7 +2,7 @@
 
 namespace Backend\Interfaces;
 
-interface ModelInterface {
+interface ICrudModel {
     public static function all();
     public static function find($id);
     public static function create($data);

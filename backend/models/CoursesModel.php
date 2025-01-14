@@ -2,10 +2,10 @@
 
 namespace Backend\Models;
 
-use Backend\Interfaces\ModelInterface;
+use Backend\Interfaces\ICrudModel;
 use Backend\Database;
 
-class CoursesModel implements ModelInterface {
+class CoursesModel implements ICrudModel {
     public static function all() {
         // Implementation of getting all courses
         $db = new Database();

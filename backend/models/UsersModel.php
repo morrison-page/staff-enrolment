@@ -2,11 +2,11 @@
 
 namespace Backend\Models;
 
-use Backend\Interfaces\ModelInterface;
+use Backend\Interfaces\ICrudModel;
 use Backend\Database;
 use Dotenv\Dotenv;
 
-class UsersModel implements ModelInterface {
+class UsersModel implements ICrudModel {
     public static function all() {
         // Logic to get all users
         $db = new Database();
