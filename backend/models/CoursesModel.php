@@ -5,6 +5,8 @@ namespace Backend\Models;
 use Backend\Interfaces\ICrudModel;
 use Backend\Database;
 
+require_once '../interfaces/ICrudModel.php';
+
 class CoursesModel implements ICrudModel {
     public static function all() {
         // Implementation of getting all courses

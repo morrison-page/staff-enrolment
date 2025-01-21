@@ -6,6 +6,8 @@ use Backend\Interfaces\ICrudModel;
 use Backend\Database;
 use Dotenv\Dotenv;
 
+require_once '../interfaces/ICrudModel.php';
+
 class UsersModel implements ICrudModel {
     public static function all() {
         // Logic to get all users
