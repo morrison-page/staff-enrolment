@@ -2,6 +2,7 @@
 
 namespace Backend\Controllers;
 
+require_once '../interfaces/ICrudController.php';
 require '../models/CoursesModel.php';
 
 use Backend\Interfaces\IcrudController;
