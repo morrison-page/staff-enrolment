@@ -31,7 +31,7 @@ $router->addRoute('POST', '/courses', [new CoursesController(), 'create']);
 $router->addRoute('PUT', '/courses/{id}', [new CoursesController(), 'update']);
 $router->addRoute('DELETE', '/courses/{id}', [new CoursesController(), 'delete']);
 
-// Enrollments
+// Enrolments
 $router->addRoute('GET', '/enrolments', [new EnrolmentsController(), 'index']);
 $router->addRoute('GET', '/enrolments/{id}', [new EnrolmentsController(), 'show']);
 $router->addRoute('POST', '/enrolments', [new EnrolmentsController(), 'create']);
