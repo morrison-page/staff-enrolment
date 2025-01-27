@@ -57,17 +57,17 @@ class UsersModel implements ICrudModel {
         require_once __DIR__ . "/../vendor/autoload.php";
         $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
         $dotenv->load();
-        $salt = random_bytes(16);
-        $pepper = $_ENV['PASSWORD_PEPPER'];
+        
+        $salt = bin2hex(random_bytes(16));
+        $pepper = $_ENV['PASSWORD_PEPPER'];       
         $password = $data['password'];
-        $pepperedPassword = $password . $pepper;
-        $saltedPassword = bin2hex($salt) . $pepperedPassword;
+        $seasonedPassword = $salt . $password . $pepper;
         $options = [
             'memory_cost' => 1<<18, // 256 MB
             'time_cost' => 12,      // 12 iterations
             'threads' => 4          // 4 threads
         ];
-        $hashedPassword = password_hash($saltedPassword, PASSWORD_ARGON2ID, $options);
+        $hashedPassword = password_hash($seasonedPassword, PASSWORD_ARGON2ID, $options);
         $accessLevel = 'user';
 
         $db = new Database();
