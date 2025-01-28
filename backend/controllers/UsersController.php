@@ -24,12 +24,12 @@ class UsersController implements IcrudController {
 
     public function create() {
         $data = HttpData::post();
-        // Add Data sanitisation | htmlspecialchars && trim extra whitespace
+        // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
         $validation = (new Validation())->validate($data, [
             'email' => 'required|min:4|max:255|email',
             'first_name' => 'required|min:2|max:100',
             'last_name' => 'required|min:2|max:100',
-            'password' => 'required|min:6', // Revisit to add more complex password requirements
+            'password' => 'required|min:6', // TODO: Revisit to add more complex password requirements
             'job_title' => 'required|min:2|max:100',
         ]);
 
@@ -38,8 +38,8 @@ class UsersController implements IcrudController {
             $this->render(['status' => 'error', 'message' => 'Validation errors', 'errors' => $validation->getErrors()]);
             return;
         }
-
-        // Users::create($data);
+        
+        Users::create($data);
         $this->render(['status' => 'success', 'message' => 'User created successfully']);
     }
 
