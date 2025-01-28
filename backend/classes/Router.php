@@ -1,6 +1,6 @@
 <?php
 
-namespace Backend;
+namespace Backend\Classes;
 
 class Router {
     private $routes = [];

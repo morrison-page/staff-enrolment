@@ -4,6 +4,7 @@ namespace Backend\Controllers;
 
 require_once '../interfaces/ICrudController.php';
 require_once '../classes/Validation.php';
+require_once '../classes/HttpData.php';
 require '../models/UsersModel.php';
 
 use Backend\Interfaces\IcrudController;

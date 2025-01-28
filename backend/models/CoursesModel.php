@@ -3,9 +3,10 @@
 namespace Backend\Models;
 
 use Backend\Interfaces\ICrudModel;
-use Backend\Database;
+use Backend\Classes\Database;
 
 require_once '../interfaces/ICrudModel.php';
+require_once '../classes/Database.php';
 
 class CoursesModel implements ICrudModel {
     public static function all() {

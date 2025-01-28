@@ -3,10 +3,11 @@
 namespace Backend\Models;
 
 use Backend\Interfaces\ICrudModel;
-use Backend\Database;
+use Backend\Classes\Database;
 use Dotenv\Dotenv;
 
 require_once '../interfaces/ICrudModel.php';
+require_once '../classes/Database.php';
 
 class UsersModel implements ICrudModel {
     public static function all() {

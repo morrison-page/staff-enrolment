@@ -1,7 +1,5 @@
 <?php
 require './headers.php';
-require '../classes/Database.php';
-require '../classes/HttpData.php';
 require '../classes/Router.php';
 require '../controllers/CoursesController.php';
 require '../controllers/UsersController.php';
@@ -10,7 +8,7 @@ require '../controllers/EnrolmentsController.php';
 use Backend\Controllers\CoursesController;
 use Backend\Controllers\UsersController;
 use Backend\Controllers\EnrolmentsController;
-use Backend\Router;
+use Backend\Classes\Router;
 
 // Backend Entry Point
 
