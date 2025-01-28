@@ -9,8 +9,8 @@ require '../models/UsersModel.php';
 
 use Backend\Interfaces\IcrudController;
 use Backend\Models\UsersModel as Users;
-use Backend\Classes\HttpData;
 use Backend\Classes\Validation;
+use Backend\Classes\HttpData;
 
 class UsersController implements IcrudController {
     public function index() {
