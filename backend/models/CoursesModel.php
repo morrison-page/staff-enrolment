@@ -20,7 +20,6 @@ class CoursesModel implements ICrudModel {
                 course_duration,
                 max_attendees,
                 description,
-                status
             FROM
                 course_details
             ";
@@ -38,8 +37,7 @@ class CoursesModel implements ICrudModel {
                 DATE_FORMAT(course_date, '%d/%m/%Y') AS course_date,
                 course_duration,
                 max_attendees,
-                description,
-                status
+                description
             FROM
                 course_details
             WHERE
