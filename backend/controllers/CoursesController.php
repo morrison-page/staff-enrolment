@@ -55,7 +55,7 @@ class CoursesController implements IcrudController {
         // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
         $validation = (new Validation())->validate($data, [
             'course_title' => 'required|min:5|max:255',
-            'course_date' => 'required',
+            'course_date' => 'required', // TODO: Add date validation
             'course_duration' => 'required|min:1|max:11',
             'max_attendees' => 'required|min:1|max:11',
             'description' => 'required|min:2|max:100',
@@ -71,7 +71,7 @@ class CoursesController implements IcrudController {
         
         if (!$sucess) {
             http_response_code(500); // Internal Server Error
-            $this->render(['status' => 'error', 'message' => 'Internal Server Error']);
+            $this->render(['status' => 'error', 'message' => 'Course could not be created']);
             return;
         }
         
@@ -109,7 +109,7 @@ class CoursesController implements IcrudController {
         
         if (!$sucess) {
             http_response_code(500); // Internal Server Error
-            $this->render(['status' => 'error', 'message' => 'Internal Server Error']);
+            $this->render(['status' => 'error', 'message' => 'Course could not be updated']);
             return;
         }
 
@@ -134,7 +134,7 @@ class CoursesController implements IcrudController {
         
         if (!$sucess) {
             http_response_code(500); // Internal Server Error
-            $this->render(['status' => 'error', 'message' => 'Internal Server Error']);
+            $this->render(['status' => 'error', 'message' => 'Course could not be deleted']);
             return;
         }
         

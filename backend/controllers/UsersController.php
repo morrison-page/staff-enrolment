@@ -18,7 +18,7 @@ class UsersController implements IcrudController {
 
         if (empty($users)) {
             http_response_code(404); // Not Found
-            $this->render(['status' => 'error', 'message' => 'No Enrolments Found']);
+            $this->render(['status' => 'error', 'message' => 'No Users Found']);
             return;
         }
 
