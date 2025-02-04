@@ -13,6 +13,12 @@ class Database {
         $this->connect();
     }
 
+    public function __destruct() {
+        if ($this->conn) {
+            $this->conn->close();
+        }
+    }
+
     private function loadEnvironmentVariables() {
         require __DIR__ . "/../vendor/autoload.php";
         $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
