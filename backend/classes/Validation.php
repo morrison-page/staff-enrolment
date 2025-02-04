@@ -51,8 +51,8 @@ class Validation {
         $messages = [
             'required' => "The {$field} is required.",
             'email' => "The {$field} must be a valid email address.",
-            'min' => "The {$field} must be at least {$params[0]} characters.",
-            'max' => "The {$field} must be no more than {$params[0]} characters.",
+            'min' => "The {$field} must be at least " . (isset($params[0]) ? $params[0] : '') . " characters.",
+            'max' => "The {$field} must be no more than " . (isset($params[0]) ? $params[0] : '') . " characters.",
             'regex' => "The {$field} format is invalid.",
             'in' => "The {$field} must be one of: " . implode(', ', $params) . ".",
         ];
