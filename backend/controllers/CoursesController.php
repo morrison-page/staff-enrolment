@@ -3,11 +3,13 @@
 namespace Backend\Controllers;
 
 require_once '../interfaces/ICrudController.php';
+require_once '../classes/Validation.php';
 require_once '../classes/HttpData.php';
 require '../models/CoursesModel.php';
 
 use Backend\Interfaces\IcrudController;
 use Backend\Models\CoursesModel as Courses;
+use Backend\Classes\Validation;
 use Backend\Classes\HttpData;
 use DateTime;
 
@@ -15,105 +17,122 @@ class CoursesController implements IcrudController {
     public function index() {
         // Get all courses logic
         $courses = Courses::all();
+
         if (empty($courses)) {
             http_response_code(404); // Not Found
             $this->render(['status' => 'error', 'message' => 'No Courses Found']);
             return;
         }
+        
         $this->render($courses);
     }
 
     public function show($id) {
-        // Get a single course logic
+        $data = ['course_id' => $id];
+        // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
+        $validation = (new Validation())->validate($data, [
+            'course_id' => 'required|min:43|max:43',
+        ]);
+
+        if ($validation->failed()) {
+            http_response_code(400); // Bad Request
+            $this->render(['status' => 'error', 'message' => 'Validation errors', 'errors' => $validation->getErrors()]);
+            return;
+        }
+                
         $course = Courses::find($id);
+        
         if (empty($course)) {
             http_response_code(404); // Not Found
             $this->render(['status' => 'error', 'message' => 'Course not found']);
             return;
         }
+
         $this->render($course);
     }
 
     public function create() {
-        // Define how to Sanitise Data
-        $filters = [
-            'course_title' => [
-                'filter' => FILTER_CALLBACK,
-                'options' => function($value) {
-                    $value = htmlspecialchars(trim($value));
-                    return is_string($value) && strlen($value) <= 255 ? $value : false;
-                }
-            ],
-            'course_date' => [
-                'filter' => FILTER_CALLBACK,
-                'options' => function($value) {
-                    $value = htmlspecialchars(trim($value));
-                    $date = DateTime::createFromFormat('d/m/Y', $value);
-                    return $date && $date->format('d/m/Y') === $value ? $value : false;
-                }
-            ],
-            'course_duration' => [
-                'filter' => FILTER_VALIDATE_INT,
-                'options' => [
-                    'min_range' => 1,
-                    'max_range' => 99999999999
-                ]
-            ],
-            'max_attendees' => [
-                'filter' => FILTER_VALIDATE_INT,
-                'options' => [
-                    'min_range' => 1,
-                    'max_range' => 99999999999
-                ]
-            ],
-            'description' => [
-                'filter' => FILTER_CALLBACK,
-                'options' => function($value) {
-                    $value = htmlspecialchars(trim($value));
-                    return is_string($value) ? filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS) : false;
-                }
-            ]
-        ];
+        $data = HttpData::post();
+        // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
+        $validation = (new Validation())->validate($data, [
+            'course_title' => 'required|min:5|max:255',
+            'course_date' => 'requireds',
+            'course_duration ' => 'required|min:10|max:11',
+            'max_attendees' => 'required|min:10|max:11',
+            'description' => 'required|min:2|max:100',
+            'status' => 'required|in:completed,cancelled,pending'
+        ]);
 
-        // Grab and Sanitise Data
-        $sanitisedData = filter_input_array(INPUT_POST, $filters);
-
-        foreach ($sanitisedData as $key => $value) {
-            if ($value === false || $value === null) {
-                http_response_code(400); // Bad Request
-                $this->render(['status' => 'error', 'message' => 'Missing/Invalid Value(s) in Request']);
-                return;
-            }
+        if ($validation->failed()) {
+            http_response_code(400); // Bad Request
+            $this->render(['status' => 'error', 'message' => 'Validation errors', 'errors' => $validation->getErrors()]);
+            return;
         }
 
-        $sucess = Courses::create($sanitisedData);
+        $sucess = Courses::create($data);
+        
         if (!$sucess) {
             http_response_code(500); // Internal Server Error
             $this->render(['status' => 'error', 'message' => 'Internal Server Error']);
             return;
         }
+        
         $this->render(['status' => 'success', 'message' => 'Course created successfully']);
     }
 
     public function update($id) {
         // Update a single course logic
-        $sucess = Courses::update($id, HttpData::put());
+        $data = ['course_id' => $id] + HttpData::put();
+
+        $validation = (new Validation())->validate($data, [
+            'course_id' => 'required|min:43|max:43',
+            'course_title' => 'required|min:5|max:255',
+            'course_date' => 'required', // TODO: Add date validation
+            'course_duration ' => 'required|min:10|max:11',
+            'max_attendees' => 'required|min:1|max:11',
+            'description' => 'required|min:2|max:100',
+            'status' => 'required|in:completed,cancelled,pending'
+        ]);
+        
+        if ($validation->failed()) {
+            http_response_code(400); // Bad Request
+            $this->render(['status' => 'error', 'message' => 'Validation errors', 'errors' => $validation->getErrors()]);
+            return;
+        }
+
+        $sucess = Courses::update($id, $data);
+        
         if (!$sucess) {
             http_response_code(500); // Internal Server Error
             $this->render(['status' => 'error', 'message' => 'Internal Server Error']);
             return;
         }
+
         $this->render(['status' => 'success', 'message' => 'Course updated successfully']);
     }
 
     public function delete($id) {
         // Delete a single course logic
+        $data = ['course_id' => $id];
+        // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
+        $validation = (new Validation())->validate($data, [
+            'course_id' => 'required|min:43|max:43',
+        ]);
+
+        if ($validation->failed()) {
+            http_response_code(400); // Bad Request
+            $this->render(['status' => 'error', 'message' => 'Validation errors', 'errors' => $validation->getErrors()]);
+            return;
+        }
+
         $sucess = Courses::delete($id);
+        
         if (!$sucess) {
             http_response_code(500); // Internal Server Error
             $this->render(['status' => 'error', 'message' => 'Internal Server Error']);
             return;
         }
+        
         $this->render(['status' => 'success', 'message' => 'Course deleted successfully']);
     }
 
