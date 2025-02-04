@@ -33,7 +33,7 @@ class UsersModel implements ICrudModel {
     public static function find($id) {
         // Logic to find a user by ID
         $db = new Database();
-        $query = "
+        $sql = "
             SELECT
                 user_id,
                 email,
@@ -49,7 +49,7 @@ class UsersModel implements ICrudModel {
                 user_id = ? OR email = ?
         ";
         $params = ['ss', $id, $id];
-        $result = $db->executeQuery($query, $params);
+        $result = $db->executeQuery($sql, $params);
         return $result;
     }
 
@@ -73,7 +73,7 @@ class UsersModel implements ICrudModel {
         $accessLevel = 'user';
 
         $db = new Database();
-        $query = "
+        $sql = "
             INSERT INTO user_details (
                 user_id,
                 email,
@@ -96,14 +96,14 @@ class UsersModel implements ICrudModel {
             $accessLevel,
         ];
         
-        $result = $db->executeNonQuery($query, $params);
+        $result = $db->executeNonQuery($sql, $params);
         return $result;
     }
 
     public static function update($id, $data) {
         // Logic to update a user
         $db = new Database();
-        $query = "
+        $sql = "
             UPDATE user_details
             SET
                 email = ?,
@@ -122,19 +122,19 @@ class UsersModel implements ICrudModel {
             $data['access_level'],
             $id
         ];
-        $result = $db->executeNonQuery($query, $params);
+        $result = $db->executeNonQuery($sql, $params);
         return $result;        
     }
 
     public static function delete($id) {
         // Logic to delete a user
         $db = new Database();
-        $query = "
+        $sql = "
             DELETE FROM user_details
             WHERE user_id = ?
         ";
         $params = ['s', $id];
-        $result = $db->executeNonQuery($query, $params);
+        $result = $db->executeNonQuery($sql, $params);
         return $result;
     }
 }

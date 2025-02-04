@@ -30,7 +30,7 @@ class CoursesModel implements ICrudModel {
     public static function find($id) {
         // Logic to find a course by ID
         $db = new Database();
-        $query = "
+        $sql = "
             SELECT
                 course_id,
                 course_title,
@@ -44,7 +44,7 @@ class CoursesModel implements ICrudModel {
                 course_id = ?
             ";
         $params = ['s', $id];
-        $result = $db->executeQuery($query, $params);
+        $result = $db->executeQuery($sql, $params);
         return $result;
     }
 
