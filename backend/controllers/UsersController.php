@@ -28,6 +28,7 @@ class UsersController implements IcrudController {
     public function show($id) {
         $data = ['user_id' => $id];
         // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
+        // TODO: Allow validation to accept email or user_id
         $validation = (new Validation())->validate($data, [
             'user_id' => 'required|min:41|max:41',
         ]);
@@ -87,6 +88,7 @@ class UsersController implements IcrudController {
             'last_name' => 'required|min:2|max:100',
             // TODO: Determine if password changing is allowed by admin
             'job_title' => 'required|min:2|max:100',
+            'access_level' => 'required|min:4|max:5|in:user,admin',
         ]);
 
         if ($validation->failed()) {
