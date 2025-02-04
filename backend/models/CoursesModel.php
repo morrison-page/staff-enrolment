@@ -78,14 +78,14 @@ class CoursesModel implements ICrudModel {
             UPDATE course_details
             SET
                 course_title = ?,
-                course_date = STR_TO_DATE(?, '%Y-%m-%d'),
+                course_date = STR_TO_DATE(?, '%d/%m/%Y'),
                 course_duration = ?,
                 max_attendees = ?,
-                description = ?,
+                description = ?
             WHERE
                 course_id = ?
         ";
-        $params = ['ssiisss',
+        $params = ['ssiiss',
             $data['course_title'],
             $data['course_date'],
             $data['course_duration'],
