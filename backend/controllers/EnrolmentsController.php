@@ -38,15 +38,15 @@ class EnrolmentsController implements IcrudController {
             return;
         }
 
-        $course = Enrolments::find($id);
+        $enrolment = Enrolments::find($id);
         
-        if (empty($course)) {
+        if (empty($enrolment)) {
             http_response_code(404); // Not Found
             $this->render(['status' => 'error', 'message' => 'Enrolment not found']);
             return;
         }
         
-        $this->render($course);
+        $this->render($enrolment);
     }
 
     public function create() {
