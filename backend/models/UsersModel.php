@@ -59,7 +59,8 @@ class UsersModel implements ICrudModel {
         $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
         $dotenv->load();
         
-        $salt = bin2hex(random_bytes(16));
+        $binarySalt = random_bytes(16);
+        $salt = bin2hex($binarySalt);
         $pepper = $_ENV['PASSWORD_PEPPER'];       
         $password = $data['password'];
         $seasonedPassword = $salt . $password . $pepper;
@@ -90,7 +91,7 @@ class UsersModel implements ICrudModel {
             $data['first_name'],
             $data['last_name'],
             $hashedPassword,
-            $salt,
+            $binarySalt,
             $data['job_title'],
             $accessLevel,
         ];
