@@ -97,6 +97,14 @@ class CoursesController implements IcrudController {
             return;
         }
 
+        $course = Courses::find($id);
+
+        if (empty($course)) {
+            http_response_code(404); // Not Found
+            $this->render(['status' => 'error', 'message' => 'Course not found']);
+            return;
+        }
+
         $sucess = Courses::update($id, $data);
         
         if (!$sucess) {

@@ -97,6 +97,14 @@ class UsersController implements IcrudController {
             return;
         }
 
+        $user = Users::find($id);
+
+        if (empty($user)) {
+            http_response_code(404); // Not Found
+            $this->render(['status' => 'error', 'message' => 'User not found']);
+            return;
+        }
+
         $sucess = Users::update($id, $data);
 
         if (!$sucess) {
