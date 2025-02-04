@@ -90,7 +90,6 @@ class CoursesController implements IcrudController {
             'course_duration ' => 'required|min:10|max:11',
             'max_attendees' => 'required|min:1|max:11',
             'description' => 'required|min:2|max:100',
-            'status' => 'required|in:completed,cancelled,pending'
         ]);
         
         if ($validation->failed()) {

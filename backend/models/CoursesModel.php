@@ -84,7 +84,6 @@ class CoursesModel implements ICrudModel {
                 course_duration = ?,
                 max_attendees = ?,
                 description = ?,
-                status = ?
             WHERE
                 course_id = ?
         ";
@@ -94,7 +93,6 @@ class CoursesModel implements ICrudModel {
             $data['course_duration'],
             $data['max_attendees'],
             $data['description'],
-            $data['status'],
             $id
         ];
         $result = $db->executeNonQuery($sql, $params);

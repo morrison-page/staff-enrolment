@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 10, 2024 at 10:40 AM
+-- Generation Time: Feb 04, 2025 at 08:42 PM
 -- Server version: 10.11.6-MariaDB-0+deb12u1
--- PHP Version: 8.3.12
+-- PHP Version: 8.3.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,25 +33,24 @@ CREATE TABLE `course_details` (
   `course_date` date NOT NULL,
   `course_duration` int(11) NOT NULL,
   `max_attendees` int(11) NOT NULL,
-  `description` text DEFAULT NULL,
-  `status` enum('completed','cancelled','pending') NOT NULL DEFAULT 'pending'
+  `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
 -- Dumping data for table `course_details`
 --
 
-INSERT INTO `course_details` (`course_id`, `course_title`, `course_date`, `course_duration`, `max_attendees`, `description`, `status`) VALUES
-('COURSE-4a91e5c7-a8ea-11ef-8c1a-005056031580', 'Introduction to Python', '2024-11-13', 3, 25, 'Learn the basics of Python programming in this introductory course', 'completed'),
-('COURSE-4a91e75b-a8ea-11ef-8c1a-005056031580', 'Data Science Basics', '2024-11-16', 2, 19, 'An overview of data science, covering key concepts and tools', 'completed'),
-('COURSE-4a91e78e-a8ea-11ef-8c1a-005056031580', 'Advanced Machine Learning', '2024-12-04', 3, 38, 'Deep dive into machine learning algorithms and advanced techniques', 'completed'),
-('COURSE-4a91e7b6-a8ea-11ef-8c1a-005056031580', 'Cloud Computing Essentials', '2024-11-19', 3, 37, 'Explore the fundamentals of cloud computing and its applications', 'completed'),
-('COURSE-4a91e7d1-a8ea-11ef-8c1a-005056031580', 'Cybersecurity Fundamentals', '2024-12-03', 2, 11, 'Understand core cybersecurity principles to protect digital assets', 'cancelled'),
-('COURSE-4a91e7ed-a8ea-11ef-8c1a-005056031580', 'Web Development Bootcamp', '2024-11-30', 3, 14, 'Comprehensive web development course covering front-end and back-end', 'completed'),
-('COURSE-4a91e809-a8ea-11ef-8c1a-005056031580', 'AI Ethics and Society', '2024-11-15', 2, 12, 'Discuss ethical concerns in AI and its societal implications', 'completed'),
-('COURSE-4a91e822-a8ea-11ef-8c1a-005056031580', 'Blockchain Technology', '2024-11-23', 1, 45, 'Learn about blockchain, cryptocurrency, and decentralized systems', 'completed'),
-('COURSE-4a91e83c-a8ea-11ef-8c1a-005056031580', 'Digital Marketing Strategy', '2024-12-10', 3, 20, 'Master digital marketing tactics for effective online campaigns', 'completed'),
-('COURSE-4a91e854-a8ea-11ef-8c1a-005056031580', 'Agile Project Management', '2024-11-22', 2, 36, 'An introduction to Agile methodologies in project management', 'cancelled');
+INSERT INTO `course_details` (`course_id`, `course_title`, `course_date`, `course_duration`, `max_attendees`, `description`) VALUES
+('COURSE-4a91e5c7-a8ea-11ef-8c1a-005056031580', 'Introduction to Python', '2024-11-13', 3, 25, 'Learn the basics of Python programming in this introductory course'),
+('COURSE-4a91e75b-a8ea-11ef-8c1a-005056031580', 'Data Science Basics', '2024-11-16', 2, 19, 'An overview of data science, covering key concepts and tools'),
+('COURSE-4a91e78e-a8ea-11ef-8c1a-005056031580', 'Advanced Machine Learning', '2024-12-04', 3, 38, 'Deep dive into machine learning algorithms and advanced techniques'),
+('COURSE-4a91e7b6-a8ea-11ef-8c1a-005056031580', 'Cloud Computing Essentials', '2024-11-19', 3, 37, 'Explore the fundamentals of cloud computing and its applications'),
+('COURSE-4a91e7d1-a8ea-11ef-8c1a-005056031580', 'Cybersecurity Fundamentals', '2024-12-03', 2, 11, 'Understand core cybersecurity principles to protect digital assets'),
+('COURSE-4a91e7ed-a8ea-11ef-8c1a-005056031580', 'Web Development Bootcamp', '2024-11-30', 3, 14, 'Comprehensive web development course covering front-end and back-end'),
+('COURSE-4a91e809-a8ea-11ef-8c1a-005056031580', 'AI Ethics and Society', '2024-11-15', 2, 12, 'Discuss ethical concerns in AI and its societal implications'),
+('COURSE-4a91e822-a8ea-11ef-8c1a-005056031580', 'Blockchain Technology', '2024-11-23', 1, 45, 'Learn about blockchain, cryptocurrency, and decentralized systems'),
+('COURSE-4a91e83c-a8ea-11ef-8c1a-005056031580', 'Digital Marketing Strategy', '2024-12-10', 3, 20, 'Master digital marketing tactics for effective online campaigns'),
+('COURSE-4a91e854-a8ea-11ef-8c1a-005056031580', 'Agile Project Management', '2024-11-22', 2, 36, 'An introduction to Agile methodologies in project management');
 
 -- --------------------------------------------------------
 
@@ -71,7 +70,7 @@ CREATE TABLE `enrolment_details` (
 --
 
 INSERT INTO `enrolment_details` (`enrolment_id`, `user_id`, `course_id`, `enrolment_date`) VALUES
-('ENROL-3cbac2ee-b5aa-11ef-8c1a-005056031580', 'USER-094d5db5-b0ee-11ef-8c1a-005056031580', 'COURSE-4a91e5c7-a8ea-11ef-8c1a-005056031580', '2024-11-14'),
+('ENROL-3cbac2ee-b5aa-11ef-8c1a-005056031580', 'USER-889a2073-b0ec-11ef-8c1a-005056031580', 'COURSE-4a91e5c7-a8ea-11ef-8c1a-005056031580', '2024-11-14'),
 ('ENROL-3cbad5b4-b5aa-11ef-8c1a-005056031580', 'USER-0c58374d-b0ed-11ef-8c1a-005056031580', 'COURSE-4a91e75b-a8ea-11ef-8c1a-005056031580', '2024-11-17'),
 ('ENROL-3cbad6de-b5aa-11ef-8c1a-005056031580', 'USER-1949c099-b0ee-11ef-8c1a-005056031580', 'COURSE-4a91e78e-a8ea-11ef-8c1a-005056031580', '2024-12-05'),
 ('ENROL-3cbad753-b5aa-11ef-8c1a-005056031580', 'USER-26df9efe-b0ee-11ef-8c1a-005056031580', 'COURSE-4a91e7b6-a8ea-11ef-8c1a-005056031580', '2024-11-20'),
@@ -82,7 +81,6 @@ INSERT INTO `enrolment_details` (`enrolment_id`, `user_id`, `course_id`, `enrolm
 ('ENROL-3cbad93f-b5aa-11ef-8c1a-005056031580', 'USER-9a3657e2-b0ed-11ef-8c1a-005056031580', 'COURSE-4a91e83c-a8ea-11ef-8c1a-005056031580', '2024-12-11'),
 ('ENROL-3cbad995-b5aa-11ef-8c1a-005056031580', 'USER-a61f9fa5-b0ed-11ef-8c1a-005056031580', 'COURSE-4a91e854-a8ea-11ef-8c1a-005056031580', '2024-11-23'),
 ('ENROL-3cbad9f0-b5aa-11ef-8c1a-005056031580', 'USER-b1b2f69c-b0ed-11ef-8c1a-005056031580', 'COURSE-4a91e5c7-a8ea-11ef-8c1a-005056031580', '2024-11-14'),
-('ENROL-3cbada58-b5aa-11ef-8c1a-005056031580', 'USER-d6d7f69d-b193-11ef-8c1a-005056031580', 'COURSE-4a91e75b-a8ea-11ef-8c1a-005056031580', '2024-11-17'),
 ('ENROL-3cbadaba-b5aa-11ef-8c1a-005056031580', 'USER-e7dd45b6-b0ed-11ef-8c1a-005056031580', 'COURSE-4a91e78e-a8ea-11ef-8c1a-005056031580', '2024-12-05'),
 ('ENROL-3cbadb22-b5aa-11ef-8c1a-005056031580', 'USER-094d5db5-b0ee-11ef-8c1a-005056031580', 'COURSE-4a91e7b6-a8ea-11ef-8c1a-005056031580', '2024-11-20'),
 ('ENROL-3cbadb84-b5aa-11ef-8c1a-005056031580', 'USER-0c58374d-b0ed-11ef-8c1a-005056031580', 'COURSE-4a91e7d1-a8ea-11ef-8c1a-005056031580', '2024-12-04'),
@@ -95,12 +93,12 @@ INSERT INTO `enrolment_details` (`enrolment_id`, `user_id`, `course_id`, `enrolm
 ('ENROL-3cbade69-b5aa-11ef-8c1a-005056031580', 'USER-9a3657e2-b0ed-11ef-8c1a-005056031580', 'COURSE-4a91e75b-a8ea-11ef-8c1a-005056031580', '2024-11-17'),
 ('ENROL-3cbaded5-b5aa-11ef-8c1a-005056031580', 'USER-a61f9fa5-b0ed-11ef-8c1a-005056031580', 'COURSE-4a91e78e-a8ea-11ef-8c1a-005056031580', '2024-12-05'),
 ('ENROL-3cbadf47-b5aa-11ef-8c1a-005056031580', 'USER-b1b2f69c-b0ed-11ef-8c1a-005056031580', 'COURSE-4a91e7b6-a8ea-11ef-8c1a-005056031580', '2024-11-20'),
-('ENROL-3cbadfb5-b5aa-11ef-8c1a-005056031580', 'USER-d6d7f69d-b193-11ef-8c1a-005056031580', 'COURSE-4a91e7d1-a8ea-11ef-8c1a-005056031580', '2024-12-04'),
 ('ENROL-3cbae027-b5aa-11ef-8c1a-005056031580', 'USER-e7dd45b6-b0ed-11ef-8c1a-005056031580', 'COURSE-4a91e7ed-a8ea-11ef-8c1a-005056031580', '2024-11-30'),
 ('ENROL-3cbae097-b5aa-11ef-8c1a-005056031580', 'USER-094d5db5-b0ee-11ef-8c1a-005056031580', 'COURSE-4a91e809-a8ea-11ef-8c1a-005056031580', '2024-11-16'),
 ('ENROL-3cbae10a-b5aa-11ef-8c1a-005056031580', 'USER-0c58374d-b0ed-11ef-8c1a-005056031580', 'COURSE-4a91e822-a8ea-11ef-8c1a-005056031580', '2024-11-24'),
 ('ENROL-3cbae192-b5aa-11ef-8c1a-005056031580', 'USER-1949c099-b0ee-11ef-8c1a-005056031580', 'COURSE-4a91e83c-a8ea-11ef-8c1a-005056031580', '2024-12-11'),
-('ENROL-3cbae208-b5aa-11ef-8c1a-005056031580', 'USER-26df9efe-b0ee-11ef-8c1a-005056031580', 'COURSE-4a91e854-a8ea-11ef-8c1a-005056031580', '2024-11-23');
+('ENROL-3cbae208-b5aa-11ef-8c1a-005056031580', 'USER-26df9efe-b0ee-11ef-8c1a-005056031580', 'COURSE-4a91e854-a8ea-11ef-8c1a-005056031580', '2024-11-23'),
+('ENROL-83055434-b8e4-11ef-8c1a-005056031580', 'USER-889a2073-b0ec-11ef-8c1a-005056031580', 'COURSE-4a91e809-a8ea-11ef-8c1a-005056031580', '2024-12-12');
 
 -- --------------------------------------------------------
 
@@ -172,8 +170,8 @@ ALTER TABLE `user_details`
 -- Constraints for table `enrolment_details`
 --
 ALTER TABLE `enrolment_details`
-  ADD CONSTRAINT `enrolment_details_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_details` (`user_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `enrolment_details_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `course_details` (`course_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `enrolment_details_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course_details` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `enrolment_details_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user_details` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
