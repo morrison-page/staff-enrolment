@@ -87,7 +87,7 @@ class CoursesController implements IcrudController {
             'course_id' => 'required|min:43|max:43',
             'course_title' => 'required|min:5|max:255',
             'course_date' => 'required', // TODO: Add date validation
-            'course_duration ' => 'required|min:10|max:11',
+            'course_duration' => 'required|min:1|max:11',
             'max_attendees' => 'required|min:1|max:11',
             'description' => 'required|min:2|max:100',
         ]);
