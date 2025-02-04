@@ -11,7 +11,6 @@ use Backend\Interfaces\IcrudController;
 use Backend\Models\CoursesModel as Courses;
 use Backend\Classes\Validation;
 use Backend\Classes\HttpData;
-use DateTime;
 
 class CoursesController implements IcrudController {
     public function index() {
