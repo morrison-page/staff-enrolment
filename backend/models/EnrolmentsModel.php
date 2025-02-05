@@ -14,10 +14,7 @@ class EnrolmentsModel implements ICrudModel {
         $db = new Database();
         $sql = "
             SELECT
-                enrolment_id,
-                user_id,
-                course_id,
-                DATE_FORMAT(enrolment_date, '%d/%m/%Y') as enrolment_date
+                *
             FROM
                 enrolment_details
         ";
@@ -30,10 +27,7 @@ class EnrolmentsModel implements ICrudModel {
         $db = new Database();
         $sql = "
             SELECT
-                enrolment_id,
-                user_id,
-                course_id,
-                DATE_FORMAT(enrolment_date, '%d/%m/%Y') as enrolment_date
+                *
             FROM
                 enrolment_details
             WHERE
@@ -68,15 +62,13 @@ class EnrolmentsModel implements ICrudModel {
             UPDATE enrolment_details
             SET
                 user_id = ?,
-                course_id = ?,
-                enrolment_date = STR_TO_DATE(?, '%Y-%m-%d')
+                course_id = ?
             WHERE 
                 enrolment_id = ?
         ";
-        $params = ['ssss',
+        $params = ['sss',
             $data['user_id'],
             $data['course_id'],
-            $data['enrolment_date'],
             $id
         ];
         $result = $db->executeNonQuery($sql, $params);

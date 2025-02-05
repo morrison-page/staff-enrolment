@@ -29,7 +29,7 @@ class EnrolmentsController implements IcrudController {
         $data = ['enrolment_id' => $id];
         // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
         $validation = (new Validation())->validate($data, [
-            'enrolment_id' => 'required|min:43|max:43',
+            'enrolment_id' => 'required|min:42|max:42',
         ]);
 
         if ($validation->failed()) {
@@ -78,7 +78,7 @@ class EnrolmentsController implements IcrudController {
         $data = ['enrolment_id' => $id] + HttpData::put();
         // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
         $validation = (new Validation())->validate($data, [
-            'enrolment_id' => 'required|min:43|max:43',
+            'enrolment_id' => 'required|min:42|max:42',
             'user_id' => 'required|min:41|max:41',
             'course_id' => 'required|min:43|max:43',
         ]);
