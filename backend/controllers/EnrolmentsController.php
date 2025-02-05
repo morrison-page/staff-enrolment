@@ -3,12 +3,14 @@
 namespace Backend\Controllers;
 
 require_once '../interfaces/ICrudController.php';
+require_once '../classes/Sanitisation.php';
 require_once '../classes/Validation.php';
 require_once '../classes/HttpData.php';
 require '../models/EnrolmentsModel.php';
 
 use Backend\Interfaces\IcrudController;
 use Backend\Models\EnrolmentsModel as Enrolments;
+use Backend\Classes\Sanitisation;
 use Backend\Classes\Validation;
 use Backend\Classes\HttpData;
 
@@ -27,7 +29,9 @@ class EnrolmentsController implements IcrudController {
 
     public function show($id) {
         $data = ['enrolment_id' => $id];
-        // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
+        
+        $data = Sanitisation::sanitise($data);
+
         $validation = (new Validation())->validate($data, [
             'enrolment_id' => 'required|min:42|max:42',
         ]);
@@ -51,7 +55,9 @@ class EnrolmentsController implements IcrudController {
 
     public function create() {
         $data = HttpData::post();
-        // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
+        
+        $data = Sanitisation::sanitise($data);
+
         $validation = (new Validation())->validate($data, [
             'user_id' => 'required|min:41|max:41',
             'course_id' => 'required|min:43|max:43',
@@ -76,7 +82,9 @@ class EnrolmentsController implements IcrudController {
 
     public function update($id) {
         $data = ['enrolment_id' => $id] + HttpData::put();
-        // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
+        
+        $data = Sanitisation::sanitise($data);
+
         $validation = (new Validation())->validate($data, [
             'enrolment_id' => 'required|min:42|max:42',
             'user_id' => 'required|min:41|max:41',
@@ -110,7 +118,9 @@ class EnrolmentsController implements IcrudController {
 
     public function delete($id) {
         $data = ['enrolment_id' => $id];
-        // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
+        
+        $data = Sanitisation::sanitise($data);
+
         $validation = (new Validation())->validate($data, [
             'enrolment_id' => 'required|min:43|max:43',
         ]);

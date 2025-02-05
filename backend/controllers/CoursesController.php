@@ -3,12 +3,14 @@
 namespace Backend\Controllers;
 
 require_once '../interfaces/ICrudController.php';
+require_once '../classes/Sanitisation.php';
 require_once '../classes/Validation.php';
 require_once '../classes/HttpData.php';
 require '../models/CoursesModel.php';
 
 use Backend\Interfaces\IcrudController;
 use Backend\Models\CoursesModel as Courses;
+use Backend\Classes\Sanitisation;
 use Backend\Classes\Validation;
 use Backend\Classes\HttpData;
 
@@ -28,7 +30,9 @@ class CoursesController implements IcrudController {
 
     public function show($id) {
         $data = ['course_id' => $id];
-        // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
+
+        $data = Sanitisation::sanitise($data);
+
         $validation = (new Validation())->validate($data, [
             'course_id' => 'required|min:43|max:43',
         ]);
@@ -39,7 +43,7 @@ class CoursesController implements IcrudController {
             return;
         }
                 
-        $course = Courses::find($id);
+        $course = Courses::find($data['course_id']);
         
         if (empty($course)) {
             http_response_code(404); // Not Found
@@ -52,7 +56,9 @@ class CoursesController implements IcrudController {
 
     public function create() {
         $data = HttpData::post();
-        // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
+
+        $data = Sanitisation::sanitise($data);
+
         $validation = (new Validation())->validate($data, [
             'course_title' => 'required|min:5|max:255',
             'course_date' => 'required', // TODO: Add date validation
@@ -82,6 +88,8 @@ class CoursesController implements IcrudController {
         // Update a single course logic
         $data = ['course_id' => $id] + HttpData::put();
 
+        $data = Sanitisation::sanitise($data);
+
         $validation = (new Validation())->validate($data, [
             'course_id' => 'required|min:43|max:43',
             'course_title' => 'required|min:5|max:255',
@@ -97,7 +105,7 @@ class CoursesController implements IcrudController {
             return;
         }
 
-        $course = Courses::find($id);
+        $course = Courses::find($data['course_id']);
 
         if (empty($course)) {
             http_response_code(404); // Not Found
@@ -105,7 +113,7 @@ class CoursesController implements IcrudController {
             return;
         }
 
-        $sucess = Courses::update($id, $data);
+        $sucess = Courses::update($data['course_id'], $data);
         
         if (!$sucess) {
             http_response_code(500); // Internal Server Error
@@ -119,7 +127,9 @@ class CoursesController implements IcrudController {
     public function delete($id) {
         // Delete a single course logic
         $data = ['course_id' => $id];
-        // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
+        
+        $data = Sanitisation::sanitise($data);
+        
         $validation = (new Validation())->validate($data, [
             'course_id' => 'required|min:43|max:43',
         ]);
@@ -130,7 +140,7 @@ class CoursesController implements IcrudController {
             return;
         }
 
-        $sucess = Courses::delete($id);
+        $sucess = Courses::delete($data['course_id']);
         
         if (!$sucess) {
             http_response_code(500); // Internal Server Error

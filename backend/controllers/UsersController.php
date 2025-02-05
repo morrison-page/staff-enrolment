@@ -3,12 +3,14 @@
 namespace Backend\Controllers;
 
 require_once '../interfaces/ICrudController.php';
+require_once '../classes/Sanitisation.php';
 require_once '../classes/Validation.php';
 require_once '../classes/HttpData.php';
 require '../models/UsersModel.php';
 
 use Backend\Interfaces\IcrudController;
 use Backend\Models\UsersModel as Users;
+use Backend\Classes\Sanitisation;
 use Backend\Classes\Validation;
 use Backend\Classes\HttpData;
 
@@ -27,7 +29,9 @@ class UsersController implements IcrudController {
 
     public function show($id) {
         $data = ['user_id' => $id];
-        // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
+        
+        $data = Sanitisation::sanitise($data);
+        
         // TODO: Allow validation to accept email or user_id
         $validation = (new Validation())->validate($data, [
             'user_id' => 'required|min:41|max:41',
@@ -39,7 +43,7 @@ class UsersController implements IcrudController {
             return;
         }
 
-        $user = Users::find($id);
+        $user = Users::find($data['user_id']);
         
         if (empty($user)) {
             http_response_code(404); // Not Found
@@ -52,7 +56,9 @@ class UsersController implements IcrudController {
 
     public function create() {
         $data = HttpData::post();
-        // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
+        
+        $data = Sanitisation::sanitise($data);
+
         $validation = (new Validation())->validate($data, [
             'email' => 'required|min:4|max:255|email',
             'first_name' => 'required|min:2|max:100',
@@ -80,7 +86,9 @@ class UsersController implements IcrudController {
 
     public function update($id) {
         $data = ['user_id' => $id] + HttpData::put();
-        // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
+        
+        $data = Sanitisation::sanitise($data);
+
         $validation = (new Validation())->validate($data, [
             'user_id' => 'required|min:41|max:41',
             'email' => 'required|min:4|max:255|email',
@@ -97,7 +105,7 @@ class UsersController implements IcrudController {
             return;
         }
 
-        $user = Users::find($id);
+        $user = Users::find($data['user_id']);
 
         if (empty($user)) {
             http_response_code(404); // Not Found
@@ -105,7 +113,7 @@ class UsersController implements IcrudController {
             return;
         }
 
-        $sucess = Users::update($id, $data);
+        $sucess = Users::update($data['user_id'], $data);
 
         if (!$sucess) {
             http_response_code(500); // Internal Server Error
@@ -118,7 +126,9 @@ class UsersController implements IcrudController {
 
     public function delete($id) {
         $data = ['user_id' => $id];
-        // TODO: Add Data sanitisation | htmlspecialchars && trim extra whitespace
+        
+        $data = Sanitisation::sanitise($data);
+
         $validation = (new Validation())->validate($data, [
             'user_id' => 'required|min:41|max:41'
         ]);
@@ -129,7 +139,7 @@ class UsersController implements IcrudController {
             return;
         }
         
-        $sucess = Users::delete($id);
+        $sucess = Users::delete($data['user_id']);
 
         if (!$sucess) {
             http_response_code(500); // Internal Server Error
