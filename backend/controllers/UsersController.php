@@ -32,7 +32,6 @@ class UsersController implements IcrudController {
         
         $data = Sanitisation::sanitise($data);
         
-        // TODO: Allow validation to accept email or user_id
         $validation = (new Validation())->validate($data, [
             'user_id' => 'required|min:41|max:41',
         ]);
@@ -73,6 +72,14 @@ class UsersController implements IcrudController {
             return;
         }
         
+        $user = Users::existsByEmail($data['email']);
+
+        if (!empty($user)) {
+            http_response_code(409); // Conflict
+            $this->render(['status' => 'error', 'message' => 'User already exists']);
+            return;
+        }
+
         $sucess = Users::create($data);
         
         if (!$sucess) {

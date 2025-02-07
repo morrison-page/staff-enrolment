@@ -137,6 +137,22 @@ class UsersModel implements ICrudModel {
         $result = $db->executeNonQuery($sql, $params);
         return $result;
     }
+
+    public static function existsByEmail($email) {
+        // Logic to check if a user exists
+        $db = new Database();
+        $sql = "
+            SELECT
+                email
+            FROM
+                user_details
+            WHERE
+                email = ?
+        ";
+        $params = ['s', $email];
+        $result = $db->executeScalarQuery($sql, $params);
+        return $result;
+    }
 }
 
 ?>
