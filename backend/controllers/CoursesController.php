@@ -61,7 +61,7 @@ class CoursesController implements IcrudController {
 
         $validation = (new Validation())->validate($data, [
             'course_title' => 'required|min:5|max:255',
-            'course_date' => 'required', // TODO: Add date validation
+            'course_date' => 'required|min:10|max:10|date',
             'course_duration' => 'required|min:1|max:11',
             'max_attendees' => 'required|min:1|max:11',
             'description' => 'required|min:2|max:100',
@@ -93,7 +93,7 @@ class CoursesController implements IcrudController {
         $validation = (new Validation())->validate($data, [
             'course_id' => 'required|min:43|max:43',
             'course_title' => 'required|min:5|max:255',
-            'course_date' => 'required', // TODO: Add date validation
+            'course_date' => 'required|min:10|max:10|date',
             'course_duration' => 'required|min:1|max:11',
             'max_attendees' => 'required|min:1|max:11',
             'description' => 'required|min:2|max:100',

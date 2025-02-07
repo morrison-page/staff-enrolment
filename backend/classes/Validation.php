@@ -2,6 +2,8 @@
 
 namespace Backend\Classes;
 
+use DateTime;
+
 class Validation {
     private $data;
     private $rules = [];
@@ -53,6 +55,7 @@ class Validation {
             'email' => "The {$field} must be a valid email address.",
             'min' => "The {$field} must be at least " . (isset($params[0]) ? $params[0] : '') . " characters.",
             'max' => "The {$field} must be no more than " . (isset($params[0]) ? $params[0] : '') . " characters.",
+            'date' => "The {$field} must be a valid date in the format dd/mm/yyyy.",
             'regex' => "The {$field} format is invalid.",
             'in' => "The {$field} must be one of: " . implode(', ', $params) . ".",
         ];
@@ -74,6 +77,11 @@ class Validation {
 
     private function validateMax($field, $max) {
         return @strlen($this->data[$field]) <= $max;
+    }
+
+    private function validateDate($field) {
+        $date = @DateTime::createFromFormat('d/m/Y', $this->data[$field]);
+        return $date && $date->format('d/m/Y') === $this->data[$field];
     }
 
     private function validateRegex($field, $pattern) {
