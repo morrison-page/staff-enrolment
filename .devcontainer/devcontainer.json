@@ -1,9 +1,9 @@
 {
   "name": "Staff Enrolment - Dev Container",
   "dockerComposeFile": "docker-compose-dev.yml",
-  "service": "backend",
+  "service": "frontend",
   "workspaceFolder": "/workspaces/staff-enrolment",
-  "forwardPorts": [80],
+  "forwardPorts": [8080, 3030],
   "customizations": {
     "vscode": {
       "extensions": [

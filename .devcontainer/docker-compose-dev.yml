@@ -4,9 +4,31 @@ services:
       context: .
       dockerfile: Dockerfile.Backend.Dev
     ports:
-      - "80:80"
+      - "3030:80"
     env_file:
       - ../backend/.env
     volumes:
       - ../backend:/var/www/html
       - ..:/workspace
+    networks:
+      - app-network
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.Frontend.Dev
+    ports:
+      - "8080:80"
+    volumes:
+      - ../frontend:/app
+      - ../:/workspace
+    environment:
+    - CHOKIDAR_USEPOLLING=true
+    networks:
+      - app-network
+    depends_on:
+      - backend
+
+networks:
+  app-network:
+    driver: bridge
+          

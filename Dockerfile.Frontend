@@ -1,0 +1,29 @@
+# Use the official Node.js image as base image
+FROM node:20
+
+# Set the working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the application code to the container
+COPY . .
+
+# Build the Vue.js application
+RUN npm run build
+
+# Use the official Apache image as the base image for serving the application
+FROM httpd:alpine
+
+# Copy the built application from the previous stage
+COPY --from=0 /app/dist /usr/local/apache2/htdocs/
+
+# Expose port 80
+EXPOSE 80
+
+# Start the Apache server
+CMD ["httpd-foreground"]
