@@ -5,14 +5,14 @@ namespace Backend\Controllers;
 require_once '../interfaces/ICrudController.php';
 require_once '../classes/Sanitisation.php';
 require_once '../classes/Validation.php';
-require_once '../classes/HttpData.php';
+require_once '../classes/Utilities.php';
 require '../models/UsersModel.php';
 
 use Backend\Interfaces\IcrudController;
 use Backend\Models\UsersModel as Users;
 use Backend\Classes\Sanitisation;
 use Backend\Classes\Validation;
-use Backend\Classes\HttpData;
+use Backend\Classes\Utilities;
 
 class UsersController implements IcrudController {
     public function index() {
@@ -54,7 +54,7 @@ class UsersController implements IcrudController {
     }
 
     public function create() {
-        $data = HttpData::post();
+        $data = Utilities::deserialiseJson();
         
         $data = Sanitisation::sanitise($data);
 
@@ -92,7 +92,7 @@ class UsersController implements IcrudController {
     }
 
     public function update($id) {
-        $data = ['user_id' => $id] + HttpData::put();
+        $data = ['user_id' => $id] + Utilities::deserialiseJson();
         
         $data = Sanitisation::sanitise($data);
 

@@ -5,14 +5,14 @@ namespace Backend\Controllers;
 require_once '../interfaces/ICrudController.php';
 require_once '../classes/Sanitisation.php';
 require_once '../classes/Validation.php';
-require_once '../classes/HttpData.php';
+require_once '../classes/Utilities.php';
 require '../models/CoursesModel.php';
 
 use Backend\Interfaces\IcrudController;
 use Backend\Models\CoursesModel as Courses;
 use Backend\Classes\Sanitisation;
 use Backend\Classes\Validation;
-use Backend\Classes\HttpData;
+use Backend\Classes\Utilities;
 
 class CoursesController implements IcrudController {
     public function index() {
@@ -55,7 +55,7 @@ class CoursesController implements IcrudController {
     }
 
     public function create() {
-        $data = HttpData::post();
+        $data = Utilities::deserialiseJson();
 
         $data = Sanitisation::sanitise($data);
 
@@ -86,7 +86,7 @@ class CoursesController implements IcrudController {
 
     public function update($id) {
         // Update a single course logic
-        $data = ['course_id' => $id] + HttpData::put();
+        $data = ['course_id' => $id] + Utilities::deserialiseJson();
 
         $data = Sanitisation::sanitise($data);
 
