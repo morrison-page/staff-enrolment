@@ -14,14 +14,17 @@ class CoursesModel implements ICrudModel {
         $db = new Database();
         $sql = "
             SELECT
-                course_id,
-                course_title,
-                DATE_FORMAT(course_date, '%d/%m/%Y') AS course_date,
-                course_duration,
-                max_attendees,
-                description
-            FROM
-                course_details
+                cd.course_id,
+                cd.course_title,
+                DATE_FORMAT(cd.course_date, '%d/%m/%Y') AS course_date,
+                cd.course_duration,
+                cd.max_attendees,
+                COUNT(ed.user_id) AS total_attendees,
+                cd.description
+            FROM course_details cd
+            JOIN enrolment_details ed 
+                ON cd.course_id = ed.course_id
+            GROUP BY cd.course_id
             ";
         $result = $db->executeQuery($sql);
         return $result;
@@ -32,14 +35,15 @@ class CoursesModel implements ICrudModel {
         $db = new Database();
         $sql = "
             SELECT
-                course_id,
-                course_title,
-                DATE_FORMAT(course_date, '%d/%m/%Y') AS course_date,
-                course_duration,
-                max_attendees,
-                description
-            FROM
-                course_details
+                cd.course_id,
+                cd.course_title,
+                DATE_FORMAT(cd.course_date, '%d/%m/%Y') AS course_date,
+                cd.course_duration,
+                cd.max_attendees,
+                COUNT(ed.user_id) AS total_attendees,
+                cd.description
+            FROM course_details cd
+            JOIN enrolment_details ed ON cd.course_id = ed.course_id
             WHERE
                 course_id = ?
             ";
