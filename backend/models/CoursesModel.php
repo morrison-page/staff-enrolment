@@ -22,7 +22,7 @@ class CoursesModel implements ICrudModel {
                 COUNT(ed.user_id) AS total_attendees,
                 cd.description
             FROM course_details cd
-            JOIN enrolment_details ed 
+            LEFT JOIN enrolment_details ed 
                 ON cd.course_id = ed.course_id
             GROUP BY cd.course_id
             ";
@@ -43,7 +43,7 @@ class CoursesModel implements ICrudModel {
                 COUNT(ed.user_id) AS total_attendees,
                 cd.description
             FROM course_details cd
-            JOIN enrolment_details ed ON cd.course_id = ed.course_id
+            LEFT JOIN enrolment_details ed ON cd.course_id = ed.course_id
             WHERE
                 course_id = ?
             ";
