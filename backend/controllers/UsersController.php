@@ -62,6 +62,8 @@ class UsersController implements IcrudController {
             'email' => 'required|min:4|max:255|email',
             'first_name' => 'required|min:2|max:100',
             'last_name' => 'required|min:2|max:100',
+            'job_title' => 'required|min:2|max:100',
+            'access_level' => 'required|min:4|max:5|in:user,admin',
             'password' => 'required|min:6', // TODO: Revisit to add more complex password requirements
             'job_title' => 'required|min:2|max:100',
         ]);

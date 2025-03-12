@@ -70,7 +70,6 @@ class UsersModel implements ICrudModel {
             'threads' => 4          // 4 threads
         ];
         $hashedPassword = password_hash($seasonedPassword, PASSWORD_ARGON2ID, $options);
-        $accessLevel = 'user';
 
         $db = new Database();
         $sql = "
@@ -93,7 +92,7 @@ class UsersModel implements ICrudModel {
             $hashedPassword,
             $binarySalt,
             $data['job_title'],
-            $accessLevel,
+            $data['access_level'],
         ];
         
         $result = $db->executeNonQuery($sql, $params);
