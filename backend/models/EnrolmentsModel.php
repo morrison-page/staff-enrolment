@@ -14,9 +14,15 @@ class EnrolmentsModel implements ICrudModel {
         $db = new Database();
         $sql = "
             SELECT
-                *
-            FROM
-                enrolment_details
+                ed.enrolment_id,
+                CONCAT(ud.first_name, ' ', ud.last_name) AS user,
+                ud.email,
+                cd.course_id,
+                cd.course_title,
+                DATE_FORMAT(cd.course_date, '%d/%m/%Y') AS course_date
+            FROM enrolment_details ed
+            JOIN user_details ud ON ud.user_id = ed.user_id
+            JOIN course_details cd ON cd.course_id = ed.course_id;
         ";
         $result = $db->executeQuery($sql);
         return $result;
@@ -27,10 +33,16 @@ class EnrolmentsModel implements ICrudModel {
         $db = new Database();
         $sql = "
             SELECT
-                *
-            FROM
-                enrolment_details
-            WHERE
+                ed.enrolment_id,
+                CONCAT(ud.first_name, ' ', ud.last_name) AS user,
+                ud.email,
+                cd.course_id,
+                cd.course_title,
+                DATE_FORMAT(cd.course_date, '%d/%m/%Y') AS course_date
+            FROM enrolment_details ed
+            JOIN user_details ud ON ud.user_id = ed.user_id
+            JOIN course_details cd ON cd.course_id = ed.course_id
+            WHERE 
                 enrolment_id = ?
         ";
         $params = ['s', $id];

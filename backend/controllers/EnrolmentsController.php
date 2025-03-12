@@ -122,7 +122,7 @@ class EnrolmentsController implements IcrudController {
         $data = Sanitisation::sanitise($data);
 
         $validation = (new Validation())->validate($data, [
-            'enrolment_id' => 'required|min:43|max:43',
+            'enrolment_id' => 'required|min:42|max:42',
         ]);
 
         if ($validation->failed()) {
