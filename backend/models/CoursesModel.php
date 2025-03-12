@@ -45,7 +45,7 @@ class CoursesModel implements ICrudModel {
             FROM course_details cd
             LEFT JOIN enrolment_details ed ON cd.course_id = ed.course_id
             WHERE
-                course_id = ?
+                cd.course_id = ?
             ";
         $params = ['s', $id];
         $result = $db->executeQuery($sql, $params);
