@@ -2,8 +2,6 @@
 
 namespace Backend\Classes;
 
-use function PHPUnit\Framework\isEmpty;
-
 class Sanitisation {
     public static function sanitise($data) {
         if (empty($data)){
