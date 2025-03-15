@@ -137,6 +137,34 @@ class UsersModel implements ICrudModel {
         return $result;
     }
 
+    public static function courses($id) {
+        // Logic to get all enrolments
+        $db = new Database();
+        $sql = "
+            SELECT
+                cd.course_id,
+                cd.course_title,
+                DATE_FORMAT(cd.course_date, '%d/%m/%Y') AS course_date,
+                cd.course_duration,
+                cd.max_attendees,
+                (SELECT COUNT(*) 
+                FROM enrolment_details ed2 
+                WHERE ed2.course_id = cd.course_id) AS total_attendees,
+                cd.description
+            FROM
+                course_details cd
+            WHERE
+                cd.course_id IN (
+                    SELECT DISTINCT ed.course_id 
+                    FROM enrolment_details ed 
+                    WHERE ed.user_id = ?
+                )
+        ";
+        $params = ['s', $id];
+        $result = $db->executeQuery($sql, $params);
+        return $result;
+    }
+
     public static function existsByEmail($email) {
         // Logic to check if a user exists
         $db = new Database();

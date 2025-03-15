@@ -18,6 +18,7 @@ $router = new Router('/apis');
 // Users
 $router->addRoute('GET', '/users', [new UsersController(), 'index']);
 $router->addRoute('GET', '/users/{id}', [new UsersController(), 'show']);
+$router->addRoute('GET', '/users/{id}/courses', [new UsersController(), 'courses']);
 $router->addRoute('POST', '/users', [new UsersController(), 'create']);
 $router->addRoute('PUT', '/users/{id}', [new UsersController(), 'update']);
 $router->addRoute('DELETE', '/users/{id}', [new UsersController(), 'delete']);

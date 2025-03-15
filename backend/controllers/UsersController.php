@@ -103,7 +103,6 @@ class UsersController implements IcrudController {
             'email' => 'required|min:4|max:255|email',
             'first_name' => 'required|min:2|max:100',
             'last_name' => 'required|min:2|max:100',
-            // TODO: Determine if password changing is allowed by admin
             'job_title' => 'required|min:2|max:100',
             'access_level' => 'required|min:4|max:5|in:user,admin',
         ]);
@@ -157,6 +156,32 @@ class UsersController implements IcrudController {
         }
         
         $this->render(['status' => 'success', 'message' => 'User deleted successfully']);
+    }
+
+    public function courses($id) {
+        $data = ['user_id' => $id];
+        
+        $data = Sanitisation::sanitise($data);
+
+        $validation = (new Validation())->validate($data, [
+            'user_id' => 'required|min:41|max:41'
+        ]);
+
+        if ($validation->failed()) {
+            http_response_code(400); // Bad Request
+            $this->render(['status' => 'error', 'message' => 'Validation errors', 'errors' => $validation->getErrors()]);
+            return;
+        }
+
+        $enrolments = Users::courses($data['user_id']);
+
+        if (empty($enrolments[0]['total_attendees'])) {
+            http_response_code(404); // Not Found
+            $this->render(['status' => 'error', 'message' => 'No Courses Found']);
+            return;
+        }
+
+        $this->render($enrolments);
     }
 
     private function render($data) {
