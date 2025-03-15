@@ -2,16 +2,15 @@
 */vendor
 */node_modules
 
-# Ide Files
-/.vscode/*
-!.vscode/extensions.json
-
 # Testing Files
 .phpunit.result.cache
 
 # Build Files
 */dist
+*tsconfig.app.tsbuildinfo
+*tsconfig.node.tsbuildinfo
 
 # Environment Files
 .env
+.env.prod
 !.env.example

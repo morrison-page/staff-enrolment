@@ -2,6 +2,10 @@
 
 namespace Backend\Classes;
 
+include_once '../middleware/AuthMiddleware.php';
+
+use Backend\Middleware\AuthMiddleware;
+
 class Router {
     private $routes = [];
     private $prefix = '';
@@ -22,6 +26,10 @@ class Router {
         $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $requestUri = rtrim($requestUri, '/'); // Allow trailing slash in request URI by removing it
         $requestMethod = $_SERVER['REQUEST_METHOD'];
+
+        if ($requestUri != $this->prefix . '/auth') {
+            AuthMiddleware::validateToken();
+        }
 
         foreach ($this->routes as $route) {
             $pattern = preg_replace('/\{[a-zA-Z0-9_]+\}/', '([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|[a-zA-Z0-9]+-[a-f0-9-]+)', $route['route']);

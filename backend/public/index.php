@@ -4,10 +4,12 @@ require '../classes/Router.php';
 require '../controllers/CoursesController.php';
 require '../controllers/UsersController.php';
 require '../controllers/EnrolmentsController.php';
+require '../controllers/AuthController.php';
 
 use Backend\Controllers\CoursesController;
 use Backend\Controllers\UsersController;
 use Backend\Controllers\EnrolmentsController;
+use Backend\Controllers\AuthController;
 use Backend\Classes\Router;
 
 // Backend Entry Point
@@ -35,7 +37,12 @@ $router->addRoute('GET', '/enrolments', [new EnrolmentsController(), 'index']);
 $router->addRoute('GET', '/enrolments/{id}', [new EnrolmentsController(), 'show']);
 $router->addRoute('POST', '/enrolments', [new EnrolmentsController(), 'create']);
 $router->addRoute('PUT', '/enrolments/{id}', [new EnrolmentsController(), 'update']);
-$router->addRoute('DELETE', '/enrolments/{id}', [new EnrolmentsController(), 'delete']);
+$router->addRoute('DELETE', '/enrolments', [new EnrolmentsController(), 'delete']);
+
+// Authentication
+$router->addRoute('POST', '/auth', [new AuthController(), 'login']);
+$router->addRoute('DELETE', '/auth', [new AuthController(), 'logout']);
+$router->addRoute('GET', '/auth', [new AuthController(), 'user']);
 
 $router->dispatch();
 
