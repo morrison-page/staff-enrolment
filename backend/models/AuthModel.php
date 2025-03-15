@@ -5,6 +5,8 @@ namespace Backend\Models;
 use Backend\Classes\Database;
 use Dotenv\Dotenv;
 
+require_once __DIR__ . '/../classes/Database.php';
+
 class AuthModel {
 	public static function login($data) {
         require_once __DIR__ . "/../vendor/autoload.php";

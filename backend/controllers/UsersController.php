@@ -2,11 +2,11 @@
 
 namespace Backend\Controllers;
 
-require_once '../interfaces/ICrudController.php';
-require_once '../classes/Sanitisation.php';
-require_once '../classes/Validation.php';
-require_once '../classes/Utilities.php';
-require '../models/UsersModel.php';
+require_once __DIR__ . '/../interfaces/ICrudController.php';
+require_once __DIR__ . '/../classes/Sanitisation.php';
+require_once __DIR__ . '/../classes/Validation.php';
+require_once __DIR__ . '/../classes/Utilities.php';
+require __DIR__ . '/../models/UsersModel.php';
 
 use Backend\Interfaces\IcrudController;
 use Backend\Models\UsersModel as Users;
@@ -185,7 +185,7 @@ class UsersController implements IcrudController {
     }
 
     private function render($data) {
-        require '../views/json.php';
+        require __DIR__ . '/../views/json.php';
     }
 }
 

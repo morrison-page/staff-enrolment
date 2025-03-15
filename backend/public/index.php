@@ -1,10 +1,10 @@
 <?php
-require './headers.php';
-require '../classes/Router.php';
-require '../controllers/CoursesController.php';
-require '../controllers/UsersController.php';
-require '../controllers/EnrolmentsController.php';
-require '../controllers/AuthController.php';
+require __DIR__ . '/headers.php';
+require __DIR__ . '/../classes/Router.php';
+require __DIR__ . '/../controllers/CoursesController.php';
+require __DIR__ . '/../controllers/UsersController.php';
+require __DIR__ . '/../controllers/EnrolmentsController.php';
+require __DIR__ . '/../controllers/AuthController.php';
 
 use Backend\Controllers\CoursesController;
 use Backend\Controllers\UsersController;

@@ -2,7 +2,7 @@
 
 namespace Backend\Middleware;
 
-require_once '../classes/JWT.php';
+require_once __DIR__ . '/../classes/JWT.php';
 
 use Backend\Classes\JWT;
 
@@ -32,7 +32,7 @@ class AuthMiddleware {
     }
     
     private static function render($data) {
-        require '../views/json.php';
+        require __DIR__ . '/../views/json.php';
     }
 }
 

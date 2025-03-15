@@ -2,11 +2,11 @@
 
 namespace Backend\Controllers;
 
-require_once '../classes/Sanitisation.php';
-require_once '../classes/Validation.php';
-require_once '../classes/Utilities.php';
-require_once '../classes/JWT.php';
-require '../models/AuthModel.php';
+require_once __DIR__ . '/../classes/Sanitisation.php';
+require_once __DIR__ . '/../classes/Validation.php';
+require_once __DIR__ . '/../classes/Utilities.php';
+require_once __DIR__ . '/../classes/JWT.php';
+require __DIR__ . '/../models/AuthModel.php';
 
 use Backend\Models\AuthModel as Auth;
 use Backend\Classes\Sanitisation;
@@ -95,7 +95,7 @@ class AuthController {
     }
     
     private function render($data) {
-        require '../views/json.php';
+        require __DIR__ . '/../views/json.php';
     }
 }
 
