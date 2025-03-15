@@ -8,7 +8,6 @@ database/
 docker-compose.yml
 Dockerfile.Backend
 LICENCE
-package.json
 README.md
 
 # Backend
