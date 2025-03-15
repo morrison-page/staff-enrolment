@@ -37,6 +37,19 @@ class AuthModel {
         return true;
     }
 
+    public static function updateLastLogin($email) {
+        $db = new Database();
+        $sql = "
+            UPDATE user_details
+            SET last_login_attempt = NOW()
+            WHERE email = ?
+        ";
+        $params = ['s', $email];
+        $result = $db->executeNonQuery($sql, $params);
+
+        return $result;
+    }
+
     public static function getAuthDetailsByEmail($email) {
         $db = new Database();
         $sql = "

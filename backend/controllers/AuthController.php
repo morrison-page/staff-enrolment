@@ -38,7 +38,15 @@ class AuthController {
             $this->render(['status' => 'error', 'message' => 'Login failed']);
             return;
         }
+
+        $sucess = Auth::updateLastLogin($data['email']);
      
+        if (!$sucess) {
+            http_response_code(500); // Internal Server Error
+            $this->render(['status' => 'error', 'message' => 'Login failed']);
+            return;
+        }
+
         // Generate JWT token
         $authUser = Auth::getAuthDetailsByEmail($data['email']);
         $userId = $authUser['user_id'];
