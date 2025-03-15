@@ -8,7 +8,7 @@ use Backend\Classes\Database;
 require_once '../interfaces/ICrudModel.php';
 require_once '../classes/Database.php';
 
-class EnrolmentsModel implements ICrudModel {
+class EnrolmentsModel {
     public static function all() {
         // Logic to get all enrollments
         $db = new Database();
@@ -16,6 +16,7 @@ class EnrolmentsModel implements ICrudModel {
             SELECT
                 ed.enrolment_id,
                 CONCAT(ud.first_name, ' ', ud.last_name) AS user,
+                ud.user_id,
                 ud.email,
                 cd.course_id,
                 cd.course_title,
@@ -25,28 +26,6 @@ class EnrolmentsModel implements ICrudModel {
             JOIN course_details cd ON cd.course_id = ed.course_id;
         ";
         $result = $db->executeQuery($sql);
-        return $result;
-    }
-
-    public static function find($id) {
-        // Logic to find an enrollment by ID
-        $db = new Database();
-        $sql = "
-            SELECT
-                ed.enrolment_id,
-                CONCAT(ud.first_name, ' ', ud.last_name) AS user,
-                ud.email,
-                cd.course_id,
-                cd.course_title,
-                DATE_FORMAT(cd.course_date, '%d/%m/%Y') AS course_date
-            FROM enrolment_details ed
-            JOIN user_details ud ON ud.user_id = ed.user_id
-            JOIN course_details cd ON cd.course_id = ed.course_id
-            WHERE 
-                enrolment_id = ?
-        ";
-        $params = ['s', $id];
-        $result = $db->executeQuery($sql, $params);
         return $result;
     }
 
@@ -67,35 +46,20 @@ class EnrolmentsModel implements ICrudModel {
         return $result;
     }
 
-    public static function update($id, $data) {
-        // Logic to update an enrollment
-        $db = new Database();
-        $sql = "
-            UPDATE enrolment_details
-            SET
-                user_id = ?,
-                course_id = ?
-            WHERE 
-                enrolment_id = ?
-        ";
-        $params = ['sss',
-            $data['user_id'],
-            $data['course_id'],
-            $id
-        ];
-        $result = $db->executeNonQuery($sql, $params);
-        return $result;
-    }
-
-    public static function delete($id) {
+    public static function delete($data) {
         // Logic to delete an enrollment
         $db = new Database();
         $sql = "
             DELETE FROM enrolment_details
             WHERE
-                enrolment_id = ?
+                user_id = ?
+            AND
+                course_id = ?
         ";
-        $params = ['s', $id];
+        $params = ['ss',
+            $data['user_id'],
+            $data['course_id']
+        ];
         $result = $db->executeNonQuery($sql, $params);
         return $result;
     }
