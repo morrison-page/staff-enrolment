@@ -2,7 +2,7 @@
 
 namespace Backend\Classes;
 
-include_once '../middleware/AuthMiddleware.php';
+include_once __DIR__ . '/../middleware/AuthMiddleware.php';
 
 use Backend\Middleware\AuthMiddleware;
 
