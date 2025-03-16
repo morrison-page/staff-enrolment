@@ -85,4 +85,18 @@ const filteredCourses = computed(() => {
 h2 {
   padding: 0;
 }
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .col-md-3 {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+  }
+}
+
+@media (min-width: 991px) and (max-width: 1366px) {
+  .col-md-3 {
+    flex: 0 0 33.3333% !important;
+    max-width: 33.3333% !important;
+  }
+}
 </style>
