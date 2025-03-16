@@ -34,9 +34,7 @@ $router->addRoute('DELETE', '/courses/{id}', [new CoursesController(), 'delete']
 
 // Enrolments
 $router->addRoute('GET', '/enrolments', [new EnrolmentsController(), 'index']);
-$router->addRoute('GET', '/enrolments/{id}', [new EnrolmentsController(), 'show']);
 $router->addRoute('POST', '/enrolments', [new EnrolmentsController(), 'create']);
-$router->addRoute('PUT', '/enrolments/{id}', [new EnrolmentsController(), 'update']);
 $router->addRoute('DELETE', '/enrolments', [new EnrolmentsController(), 'delete']);
 
 // Authentication
