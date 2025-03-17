@@ -2,7 +2,6 @@
 
 namespace Backend\Controllers;
 
-require_once __DIR__ . '/../interfaces/ICrudController.php';
 require_once __DIR__ . '/../classes/Sanitisation.php';
 require_once __DIR__ . '/../classes/Validation.php';
 require_once __DIR__ . '/../classes/Utilities.php';
