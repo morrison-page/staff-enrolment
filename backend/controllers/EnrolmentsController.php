@@ -8,6 +8,8 @@ require_once __DIR__ . '/../classes/Utilities.php';
 require __DIR__ . '/../models/EnrolmentsModel.php';
 
 use Backend\Models\EnrolmentsModel as Enrolments;
+use Backend\Models\CoursesModel as Courses;
+use Backend\Models\UsersModel as Users;
 use Backend\Classes\Sanitisation;
 use Backend\Classes\Validation;
 use Backend\Classes\Utilities;
@@ -48,8 +50,21 @@ class EnrolmentsController {
             $this->render(['status' => 'error', 'message' => 'Enrolment could not be created']);
             return;
         }
+       
+        // Sending Email to user when enroled (Not functional in dev, will have to be tested in production)
+        $user = Users::find($data['user_id']);
+		$email = $user[0]['email'];
+        $course = Courses::find($data['course_id']);
+        $courseTitle = $course[0]['course_title'];
+		$startDate = $course[0]['course_date'];
+		
+		$to = $email;
+		$subject = "Enrolment to course - {$courseTitle}";
+		$message = "You have sucessfuly been enroled on {$courseTitle} which will start on {$startDate}.";
+ 
+        $sucess = mail($to, $subject, $message);
 
-        $this->render(['status' => 'success', 'message' => 'Enrolment created successfully']);
+        $this->render(['status' => 'success', 'message' => 'Enrolment created successfully', 'email' => $sucess]);
     }
 
     public function delete() {       
