@@ -35,13 +35,13 @@ const handleLogout = () => {
       <template v-if="autheduser.access_level === 'admin'">
         <hr>
         <li>
-          <router-link :class="['nav-link', route.path === '/manage/users' ? 'active' : 'link-body-emphasis']" to="/manage/users">
+          <router-link :class="['nav-link', (route.path === '/manage/users' || route.name === 'UsersForm') ? 'active' : 'link-body-emphasis']" to="/manage/users">
               <i class="bi bi-people-fill pe-none me-2"></i>
               Manage Users
             </router-link>
         </li>
         <li>
-          <router-link :class="['nav-link', route.path === '/manage/courses' ? 'active' : 'link-body-emphasis']" to="/manage/courses">
+          <router-link :class="['nav-link', (route.path === '/manage/courses' || route.name === 'CoursesForm') ? 'active' : 'link-body-emphasis']" to="/manage/courses">
               <i class="bi bi-pencil-fill pe-none me-2"></i>
               Manage Courses
             </router-link>

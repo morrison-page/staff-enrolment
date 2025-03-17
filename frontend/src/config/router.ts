@@ -21,12 +21,12 @@ const routes = [
   { path: '/yourcourses', component: YourCourses  },
   // Admin Routes
   { path: '/manage/users', component: ManageUsers },
-  { path: '/manage/users/form/:userId?', component: UserForm, props: true },
+  { path: '/manage/users/form/:userId?', name: 'UsersForm', component: UserForm, props: true },
   { path: '/manage/courses', component: ManageCourses },
-  { path: '/manage/courses/form/:courseId?', component: CourseForm, props: true },
+  { path: '/manage/courses/form/:courseId?', name: 'CoursesForm', component: CourseForm, props: true },
   { path: '/manage/enrolments', component: ManageEnrolments },
   // Other Routes
-  { path: '/:pathMatch(.*)*', name: 'NotFound',component: NotFound },
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
 ];
 
 const router = createRouter({
