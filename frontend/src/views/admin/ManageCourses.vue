@@ -32,6 +32,14 @@ const addCourse = () => {
   router.push('/manage/courses/form');
 };
 
+function isPastDate(date: string): boolean {
+  const [day, month, year] = date.split('/').map(Number);
+  const inputDate = new Date(year, month - 1, day);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set to midnight to compare only dates
+  return inputDate < today;
+}
+
 onMounted(() => {
   fetchCourses();
 });
@@ -39,11 +47,12 @@ onMounted(() => {
 
 <template>
   <AppLayout>
-    <div class="container mt-4">
+    <div class="container mt-3">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1>Manage Courses</h1>
-        <button class="btn btn-primary btn-sm" @click="addCourse()">Add Course</button>
+        <h2>Manage Future Courses</h2>
+        <button class="btn btn-primary btn-sm" @click="addCourse()">Add Course</button>  
       </div>
+      <hr>
       <table class="table table-striped shadow-lg">
         <thead>
           <tr>
@@ -58,20 +67,54 @@ onMounted(() => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="course in courses" :key="course.course_id">
-            <td>{{ course.course_id }}</td>
-            <td>{{ course.course_title }}</td>
-            <td>{{ course.course_date }}</td>
-            <td>{{ course.course_duration }}</td>
-            <td>{{ course.max_attendees }}</td>
-            <td>{{ course.description }}</td>
-            <td>
-              <button class="btn btn-primary btn-sm" @click="editCourse(course.course_id)">Edit</button>
-            </td>
-            <td>  
-              <button class="btn btn-danger btn-sm" @click="deleteCourse(course.course_id)">Delete</button>
-            </td>
+          <template v-for="course in courses" :key="course.course_id">
+            <tr v-if="!isPastDate(course.course_date)">
+              <td>{{ course.course_id }}</td>
+              <td>{{ course.course_title }}</td>
+              <td>{{ course.course_date }}</td>
+              <td>{{ course.course_duration }}</td>
+              <td>{{ course.max_attendees }}</td>
+              <td>{{ course.description }}</td>
+              <td><button class="btn btn-primary btn-sm" @click="editCourse(course.course_id)">Edit</button></td>
+              <td><button class="btn btn-danger btn-sm" @click="deleteCourse(course.course_id)">Delete</button></td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+    <br>
+    <div class="container mt-2">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Manage Historic Courses</h2>
+        <button class="btn btn-primary btn-sm" @click="addCourse()">Add Course</button>
+      </div>
+      <hr>
+      <table class="table table-striped shadow-lg">
+        <thead>
+          <tr>
+            <th scope="col">Course ID</th>
+            <th scope="col">Course Title</th>
+            <th scope="col">Course Date</th>
+            <th scope="col">Course Duration</th>
+            <th scope="col">Max Attendees</th>
+            <th scope="col">Description</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
           </tr>
+        </thead>
+        <tbody>
+          <template v-for="course in courses" :key="course.course_id">
+            <tr v-if="isPastDate(course.course_date)">
+              <td>{{ course.course_id }}</td>
+              <td>{{ course.course_title }}</td>
+              <td>{{ course.course_date }}</td>
+              <td>{{ course.course_duration }}</td>
+              <td>{{ course.max_attendees }}</td>
+              <td>{{ course.description }}</td>
+              <td><button class="btn btn-primary btn-sm" @click="editCourse(course.course_id)">Edit</button></td>
+              <td><button class="btn btn-danger btn-sm" @click="deleteCourse(course.course_id)">Delete</button></td>
+            </tr>
+          </template>
         </tbody>
       </table>
     </div>
