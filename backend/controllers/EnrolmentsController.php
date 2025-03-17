@@ -8,7 +8,6 @@ require_once __DIR__ . '/../classes/Validation.php';
 require_once __DIR__ . '/../classes/Utilities.php';
 require __DIR__ . '/../models/EnrolmentsModel.php';
 
-use Backend\Interfaces\IcrudController;
 use Backend\Models\EnrolmentsModel as Enrolments;
 use Backend\Classes\Sanitisation;
 use Backend\Classes\Validation;
