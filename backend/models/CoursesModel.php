@@ -8,9 +8,25 @@ use Backend\Classes\Database;
 require_once __DIR__ . '/../interfaces/ICrudModel.php';
 require_once __DIR__ . '/../classes/Database.php';
 
+/**
+ * Class CoursesModel
+ *
+ * Handles database operations related to courses
+ * This class implements CRUD operations for managing courses
+ *
+ * @package Backend\Models
+ */
 class CoursesModel implements ICrudModel {
+
+    /**
+     * Retrieves all courses from the database
+     *
+     * This method fetches all courses along with their course details such as
+     * course title, date, duration, maximum attendees, and total attendees
+     *
+     * @return array List of courses with their details
+     */
     public static function all() {
-        // Implementation of getting all courses
         $db = new Database();
         $sql = "
             SELECT
@@ -25,13 +41,20 @@ class CoursesModel implements ICrudModel {
             LEFT JOIN enrolment_details ed 
                 ON cd.course_id = ed.course_id
             GROUP BY cd.course_id
-            ";
+        ";
         $result = $db->executeQuery($sql);
         return $result;
     }
 
+    /**
+     * Finds a specific course by its ID
+     *
+     * This method retrieves the details of a course identified by its unique course ID
+     *
+     * @param string $id The course ID
+     * @return array Course details
+     */
     public static function find($id) {
-        // Logic to find a course by ID
         $db = new Database();
         $sql = "
             SELECT
@@ -46,14 +69,21 @@ class CoursesModel implements ICrudModel {
             LEFT JOIN enrolment_details ed ON cd.course_id = ed.course_id
             WHERE
                 cd.course_id = ?
-            ";
+        ";
         $params = ['s', $id];
         $result = $db->executeQuery($sql, $params);
         return $result;
     }
 
+    /**
+     * Creates a new course
+     *
+     * This method inserts a new course record into the database using the provided data
+     *
+     * @param array $data The course data including title, date, duration, etc.
+     * @return bool The result of the insert operation
+     */
     public static function create($data) {
-        // Logic to create a new course
         $db = new Database();
         $sql = "
             INSERT INTO course_details (
@@ -75,8 +105,16 @@ class CoursesModel implements ICrudModel {
         return $result;
     }
 
+    /**
+     * Updates a course
+     *
+     * This method updates an existing course's details in the database based on the provided ID and data
+     *
+     * @param string $id The course ID to be updated
+     * @param array $data The new course data
+     * @return bool The result of the update operation
+     */
     public static function update($id, $data) {
-        // Logic to update a course
         $db = new Database();
         $sql = "
             UPDATE course_details
@@ -101,8 +139,15 @@ class CoursesModel implements ICrudModel {
         return $result;
     }
 
+    /**
+     * Deletes a course by its ID
+     *
+     * This method deletes a course record from the database using the specified course ID
+     *
+     * @param string $id The course ID to be deleted
+     * @return bool The result of the delete operation
+     */
     public static function delete($id) {
-        // Logic to delete a course
         $db = new Database();
         $sql = "
             DELETE FROM course_details
