@@ -14,7 +14,26 @@ use Backend\Classes\Validation;
 use Backend\Classes\Utilities;
 use Backend\Classes\JWT;
 
+/**
+ * Class AuthController
+ *
+ * Controller to handle user authentication operations such as login, logout, and fetching user details
+ *
+ * @package Backend\Controllers
+ */
 class AuthController {
+
+    /**
+     * Handles the login process
+     * 
+     * 1. Deserialises the input JSON data
+     * 2. Sanitises the input data
+     * 3. Validates the input data
+     * 4. Attempts to log the user in
+     * 5. Generates a JWT token on success
+     * 
+     * @return void
+     */
     public function login() {
         $data = Utilities::deserialiseJson();
 
@@ -31,17 +50,17 @@ class AuthController {
             return;
         }
 
-        $sucess = Auth::login($data);
+        $success = Auth::login($data);
         
-        if (!$sucess) {
+        if (!$success) {
             http_response_code(500); // Internal Server Error
             $this->render(['status' => 'error', 'message' => 'Login failed']);
             return;
         }
 
-        $sucess = Auth::updateLastLogin($data['email']);
+        $success = Auth::updateLastLogin($data['email']);
      
-        if (!$sucess) {
+        if (!$success) {
             http_response_code(500); // Internal Server Error
             $this->render(['status' => 'error', 'message' => 'Login failed']);
             return;
@@ -68,7 +87,7 @@ class AuthController {
         // setcookie('token', $token, [
         //     "expires" => time() + 3600, // Expires in 1 hour
         //     "path" => "/",
-        //     "domain" => "127.0.0.1:8080", // Change cookie domain when in prod
+        //     "domain" => "127.0.0.1", // Change cookie domain when in prod
         //     "secure" => false, // Change to true when using HTTPS in prod
         //     "httponly" => true, // Prevents JavaScript access
         //     "samesite" => "Lax" // Use "None" and add secure = true in prod
@@ -78,6 +97,14 @@ class AuthController {
         return;
     }
 
+    /**
+     * Handles the logout process
+     * 
+     * 1. Invalidates the existing JWT token by setting its expiry to the past
+     * 2. Removes the token from the cookie
+     * 
+     * @return void
+     */
     public function logout() {
         if (isset($_COOKIE['token'])) {
             $token = $_COOKIE['token'];
@@ -89,6 +116,14 @@ class AuthController {
         $this->render(['status' => 'success', 'message' => 'Logged out successfully']);
     }
 
+    /**
+     * Retrieves user details from the token in the cookie
+     * 
+     * 1. Decodes the JWT token
+     * 2. Returns the users authed information
+     * 
+     * @return void
+     */
     public function user() {
         if (isset($_COOKIE['token'])) {
             $token = $_COOKIE['token'];
@@ -102,6 +137,11 @@ class AuthController {
         }
     }
     
+    /**
+     * Renders the response data as a JSON response
+     * 
+     * @param array $data The data to be sent in the response
+     */
     private function render($data) {
         require __DIR__ . '/../views/json.php';
     }

@@ -14,9 +14,25 @@ use Backend\Classes\Sanitisation;
 use Backend\Classes\Validation;
 use Backend\Classes\Utilities;
 
+/**
+ * Courses CoursesController
+ * 
+ * Controller to handle CRUD operations for courses such 
+ * as index, show, create, update, and delete
+ *
+ * @package Backend\Controllers
+ */
 class CoursesController implements IcrudController {
+
+    /**
+     * Get All Courses
+     * 
+     * Retrieves and displays all courses as JSON objects
+     * If no courses are found, returns a 404 error
+     * 
+     * @return void
+     */
     public function index() {
-        // Get all courses logic
         $courses = Courses::all();
 
         if (empty($courses)) {
@@ -28,6 +44,16 @@ class CoursesController implements IcrudController {
         $this->render($courses);
     }
 
+    /**
+     * Get Single Course
+     * 
+     * Displays details of a specific course by ID.
+     * Validates the course ID and returns an error if validation fails.
+     * If the course is not found, returns a 404 error.
+     *
+     * @param string $id The ID of the course to retrieve.
+     * @return void
+     */
     public function show($id) {
         $data = ['course_id' => $id];
 
@@ -54,6 +80,15 @@ class CoursesController implements IcrudController {
         $this->render($course);
     }
 
+    /**
+     * Creates a new course
+     * 
+     * Creates a new course based on the provided data
+     * Validates the course data and returns an error if validation fails
+     * If course creation fails, returns a 500 error
+     * 
+     * @return void
+     */
     public function create() {
         $data = Utilities::deserialiseJson();
 
@@ -73,9 +108,9 @@ class CoursesController implements IcrudController {
             return;
         }
 
-        $sucess = Courses::create($data);
+        $success = Courses::create($data);
         
-        if (!$sucess) {
+        if (!$success) {
             http_response_code(500); // Internal Server Error
             $this->render(['status' => 'error', 'message' => 'Course could not be created']);
             return;
@@ -84,8 +119,17 @@ class CoursesController implements IcrudController {
         $this->render(['status' => 'success', 'message' => 'Course created successfully']);
     }
 
+    /**
+     * Updates a single course
+     * 
+     * Updates a course with new data based on the provided ID
+     * Validates the course data and returns an error if validation fails
+     * If course is not found, returns a 404 error
+     * 
+     * @param string $id The ID of the course to update
+     * @return void
+     */
     public function update($id) {
-        // Update a single course logic
         $data = ['course_id' => $id] + Utilities::deserialiseJson();
 
         $data = Sanitisation::sanitise($data);
@@ -113,9 +157,9 @@ class CoursesController implements IcrudController {
             return;
         }
 
-        $sucess = Courses::update($data['course_id'], $data);
+        $success = Courses::update($data['course_id'], $data);
         
-        if (!$sucess) {
+        if (!$success) {
             http_response_code(500); // Internal Server Error
             $this->render(['status' => 'error', 'message' => 'Course could not be updated']);
             return;
@@ -124,8 +168,17 @@ class CoursesController implements IcrudController {
         $this->render(['status' => 'success', 'message' => 'Course updated successfully']);
     }
 
+    /**
+     * Deletes a single course
+     * 
+     * Deletes a course based on the provided ID
+     * Validates the course ID and returns an error if validation fails
+     * If course deletion fails, returns a 500 error
+     * 
+     * @param string $id The ID of the course to delete
+     * @return void
+     */
     public function delete($id) {
-        // Delete a single course logic
         $data = ['course_id' => $id];
         
         $data = Sanitisation::sanitise($data);
@@ -140,9 +193,9 @@ class CoursesController implements IcrudController {
             return;
         }
 
-        $sucess = Courses::delete($data['course_id']);
+        $success = Courses::delete($data['course_id']);
         
-        if (!$sucess) {
+        if (!$success) {
             http_response_code(500); // Internal Server Error
             $this->render(['status' => 'error', 'message' => 'Course could not be deleted']);
             return;
@@ -151,6 +204,11 @@ class CoursesController implements IcrudController {
         $this->render(['status' => 'success', 'message' => 'Course deleted successfully']);
     }
 
+    /**
+     * Renders the response data as a JSON response
+     * 
+     * @param array $data The data to be sent in the response
+     */
     private function render($data) {
         require __DIR__ . '/../views/json.php';
     }
