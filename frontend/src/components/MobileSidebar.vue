@@ -88,4 +88,14 @@ const handleLogout = () => {
   background-color: #212529!important;
   border-bottom: 1px solid #495057!important;
 }
+
+.nav-link {
+  padding-left: 10px;
+}
+
+.nav-link.active {
+  background-color: #0d6efd;
+  color: white;
+  border-radius: 5px;
+}
 </style>
