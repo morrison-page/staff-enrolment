@@ -123,7 +123,7 @@ watch(route, async (newRoute) => {
             <textarea v-model="course.description" style="max-height: 200px;" id="description" class="form-control" required minlength="2" maxlength="100"></textarea>
             <div class="invalid-feedback">Please provide a description (2-100 characters).</div>
         </div>
-        <div class="d-flex gap-2">
+        <div class="d-flex flex-column flex-md-row gap-2">
           <button class="btn btn-secondary w-100" type="button" @click="handleCancel">Cancel</button>
           <button class="btn btn-primary w-100" type="submit">{{ isEditMode ? 'Update' : 'Create' }}</button>
         </div>
@@ -134,7 +134,8 @@ watch(route, async (newRoute) => {
 
 <style scoped>
 .card {
-  width: 800px;
+  width: 100%;
+  max-width: 800px;
   margin: 0 auto;
 }
 </style>
