@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import _axios from '@/config/axios';
-
 
 // Admin Access Level Check
 const store = useStore();
@@ -26,6 +25,7 @@ interface Enrolment {
 
 const enrolments = ref<Enrolment[]>([]);
 const groupedEnrolments = ref<Record<string, Enrolment[]>>({});
+const searchQuery = ref<string>('');
 
 // TODO: Refactor to use vuex
 const fetchEnrolments = async () => {
@@ -65,6 +65,24 @@ function isPastDate(date: string): boolean {
   return inputDate < today;
 }
 
+const filteredEnrolments = computed(() => {
+  if (!searchQuery.value) {
+    return groupedEnrolments.value;
+  }
+  const query = searchQuery.value.toLowerCase();
+  const filtered = Object.keys(groupedEnrolments.value).reduce((acc: Record<string, Enrolment[]>, courseId) => {
+    const enrolments = groupedEnrolments.value[courseId].filter(enrolment => 
+      enrolment.course_title.toLowerCase().includes(query) || 
+      enrolment.course_date.includes(query)
+    );
+    if (enrolments.length) {
+      acc[courseId] = enrolments;
+    }
+    return acc;
+  }, {});
+  return filtered;
+});
+
 onMounted(() => {
   fetchEnrolments();
 });
@@ -74,8 +92,10 @@ onMounted(() => {
   <AppLayout>
     <div class="container mt-3">
       <h2>Manage Future Enrolments</h2>
+      <hr>
+      <input type="text" v-model="searchQuery" placeholder="Search by course title or date" class="form-control mb-3">
       <hr><br>
-      <div v-for="(enrolments, courseId) in groupedEnrolments" :key="courseId">
+      <div v-for="(enrolments, courseId) in filteredEnrolments" :key="courseId">
         <div v-if="!isPastDate(enrolments[0].course_date)">
           <h4>{{ enrolments[0].course_title }} - {{ enrolments[0].course_date }}</h4>
           <hr>
@@ -107,7 +127,7 @@ onMounted(() => {
     <div class="container mt-3">
       <h2>Manage Historic Enrolments</h2>
       <hr><br>
-      <div v-for="(enrolments, courseId) in groupedEnrolments" :key="courseId">
+      <div v-for="(enrolments, courseId) in filteredEnrolments" :key="courseId">
         <div v-if="isPastDate(enrolments[0].course_date)">
           <h4>{{ enrolments[0].course_title }} - {{ enrolments[0].course_date }}</h4>
           <hr>

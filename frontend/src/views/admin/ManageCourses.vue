@@ -1,34 +1,49 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { onMounted, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
+interface Course {
+  course_id: string;
+  course_title: string;
+  course_date: string;
+  course_duration: string;
+  max_attendees: number;
+  description: string;
+}
+
+interface User {
+  access_level: string;
+}
+
 const store = useStore();
 const router = useRouter();
-const courses = computed(() => store.state.courses.courses);
+const courses = computed<Course[]>(() => store.state.courses.courses);
+const futureSearchQuery = ref<string>('');
+const historicSearchQuery = ref<string>('');
 
 // Admin Access Level Check
-const access_level = store.getters['auth/user'].access_level;
+const access_level: string = (store.getters['auth/user'] as User).access_level;
 if (access_level !== 'admin') {
-  router.push({name: 'NotFound'});
+  router.push({ name: 'NotFound' });
 }
 
 // Vuex Actions
-const fetchCourses = async () => {
+const fetchCourses = async (): Promise<void> => {
   await store.dispatch('courses/fetchCourses');
 };
 
-const deleteCourse = async (courseId: string) => {
+const deleteCourse = async (courseId: string): Promise<void> => {
   await store.dispatch('courses/deleteCourse', courseId);
   fetchCourses(); // Refresh
 };
 
 // Edit Actions
-const editCourse = (courseId: string) => {
+const editCourse = (courseId: string): void => {
   router.push({ path: `/manage/courses/form/${courseId}` });
 };
-const addCourse = () => {
+const addCourse = (): void => {
   router.push('/manage/courses/form');
 };
 
@@ -39,6 +54,28 @@ function isPastDate(date: string): boolean {
   today.setHours(0, 0, 0, 0); // Set to midnight to compare only dates
   return inputDate < today;
 }
+
+const filteredFutureCourses = computed<Course[]>(() => {
+  if (!futureSearchQuery.value) {
+    return courses.value.filter(course => !isPastDate(course.course_date));
+  }
+  const query = futureSearchQuery.value.toLowerCase();
+  return courses.value.filter(course =>
+    (!isPastDate(course.course_date)) &&
+    (course.course_title.toLowerCase().includes(query) || course.course_date.includes(query))
+  );
+});
+
+const filteredHistoricCourses = computed<Course[]>(() => {
+  if (!historicSearchQuery.value) {
+    return courses.value.filter(course => isPastDate(course.course_date));
+  }
+  const query = historicSearchQuery.value.toLowerCase();
+  return courses.value.filter(course =>
+    (isPastDate(course.course_date)) &&
+    (course.course_title.toLowerCase().includes(query) || course.course_date.includes(query))
+  );
+});
 
 onMounted(() => {
   fetchCourses();
@@ -52,6 +89,8 @@ onMounted(() => {
         <h2>Manage Future Courses</h2>
         <button class="btn btn-primary btn-sm" @click="addCourse()">Add Course</button>  
       </div>
+      <hr>
+      <input type="text" v-model="futureSearchQuery" placeholder="Search by course title or date" class="form-control mb-3">
       <hr>
       <table class="table table-striped shadow-lg">
         <thead>
@@ -67,8 +106,8 @@ onMounted(() => {
           </tr>
         </thead>
         <tbody>
-          <template v-for="course in courses" :key="course.course_id">
-            <tr v-if="!isPastDate(course.course_date)">
+          <template v-for="course in filteredFutureCourses" :key="course.course_id">
+            <tr>
               <td>{{ course.course_id }}</td>
               <td>{{ course.course_title }}</td>
               <td>{{ course.course_date }}</td>
@@ -89,6 +128,8 @@ onMounted(() => {
         <button class="btn btn-primary btn-sm" @click="addCourse()">Add Course</button>
       </div>
       <hr>
+      <input type="text" v-model="historicSearchQuery" placeholder="Search by course title or date" class="form-control mb-3">
+      <hr>
       <table class="table table-striped shadow-lg">
         <thead>
           <tr>
@@ -103,8 +144,8 @@ onMounted(() => {
           </tr>
         </thead>
         <tbody>
-          <template v-for="course in courses" :key="course.course_id">
-            <tr v-if="isPastDate(course.course_date)">
+          <template v-for="course in filteredHistoricCourses" :key="course.course_id">
+            <tr>
               <td>{{ course.course_id }}</td>
               <td>{{ course.course_title }}</td>
               <td>{{ course.course_date }}</td>

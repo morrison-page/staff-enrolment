@@ -1,38 +1,63 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { onMounted, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
+interface User {
+  user_id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  job_title: string;
+  access_level: string;
+  login_attempts: number;
+  last_login_attempt: string;
+}
+
 const store = useStore();
 const router = useRouter();
-const users = computed(() => store.state.users.users);
+const users = computed<User[]>(() => store.state.users.users);
+const searchQuery = ref<string>('');
 
 // Admin Access Level Check
-const access_level = store.getters['auth/user'].access_level;
+const access_level: string = store.getters['auth/user'].access_level;
 if (access_level !== 'admin') {
-  router.push({name: 'NotFound'});
+  router.push({ name: 'NotFound' });
 }
 
 // Vuex Actions
-const fetchUsers = async () => {
+const fetchUsers = async (): Promise<void> => {
   await store.dispatch('users/fetchUsers');
 };
 
-const deleteUser = async (userId: string) => {
+const deleteUser = async (userId: string): Promise<void> => {
   await store.dispatch('users/deleteUser', userId);
   fetchUsers(); // Refresh
 };
 
 // Edit Actions
-const editUser = (userId: string) => {
+const editUser = (userId: string): void => {
   router.push({ path: `/manage/users/form/${userId}` });
 };
-const addUser = () => {
+const addUser = (): void => {
   router.push('/manage/users/form');
 };
 
-onMounted(() => {
+const filteredUsers = computed<User[]>(() => {
+  if (!searchQuery.value) {
+    return users.value;
+  }
+  const query = searchQuery.value.toLowerCase();
+  return users.value.filter(user =>
+    user.email.toLowerCase().includes(query) ||
+    user.first_name.toLowerCase().includes(query) ||
+    user.last_name.toLowerCase().includes(query) ||
+    user.job_title.toLowerCase().includes(query)
+  );
+});
+
+onMounted((): void => {
   fetchUsers();
 });
 </script>
@@ -44,6 +69,9 @@ onMounted(() => {
         <h1>Manage Users</h1>
         <button class="btn btn-primary btn-sm" @click="addUser()">Add User</button>
       </div>
+      <hr>
+      <input type="text" v-model="searchQuery" placeholder="Search by email, first name, last name, or job title" class="form-control mb-3">
+      <hr>
       <table class="table table-striped shadow-lg">
         <thead>
           <tr>
@@ -60,7 +88,7 @@ onMounted(() => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in users" :key="user.user_id">
+          <tr v-for="user in filteredUsers" :key="user.user_id">
             <td>{{ user.user_id }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.first_name }}</td>
