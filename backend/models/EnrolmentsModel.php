@@ -6,9 +6,25 @@ use Backend\Classes\Database;
 
 require_once __DIR__ . '/../classes/Database.php';
 
+/**
+ * Class EnrolmentsModel
+ *
+ * Handles database operations related to enrolments
+ * This class implements CRUD operations for managing enrolments
+ *
+ * @package Backend\Models
+ */
 class EnrolmentsModel {
+
+    /**
+     * Retrieves all enrolments from the database
+     *
+     * This method fetches all enrolments along with their details such as
+     * user information and course information
+     *
+     * @return array List of enrolments with their details
+     */
     public static function all() {
-        // Logic to get all enrollments
         $db = new Database();
         $sql = "
             SELECT
@@ -27,8 +43,15 @@ class EnrolmentsModel {
         return $result;
     }
 
+    /**
+     * Creates a new enrolment
+     *
+     * This method inserts a new enrolment record into the database using the provided data
+     *
+     * @param array $data The enrolment data including user ID and course ID
+     * @return bool The result of the insert operation
+     */
     public static function create($data) {
-        // Logic to create a new enrollment
         $db = new Database();
         $sql = "
             INSERT INTO enrolment_details (
@@ -44,8 +67,15 @@ class EnrolmentsModel {
         return $result;
     }
 
+    /**
+     * Deletes an enrolment
+     *
+     * This method deletes an enrolment record from the database using the specified user ID and course ID
+     *
+     * @param array $data The enrolment data including user ID and course ID
+     * @return bool The result of the delete operation
+     */
     public static function delete($data) {
-        // Logic to delete an enrollment
         $db = new Database();
         $sql = "
             DELETE FROM enrolment_details

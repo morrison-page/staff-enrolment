@@ -14,7 +14,24 @@ use Backend\Classes\Sanitisation;
 use Backend\Classes\Validation;
 use Backend\Classes\Utilities;
 
+/**
+ * Class UsersController
+ * 
+ * Controller to handle CRUD operations for users such as index, show, create, update, delete,
+ * and retrieving the courses a user is enrolled in
+ *
+ * @package Backend\Controllers
+ */
 class UsersController implements IcrudController {
+
+    /**
+     * Get All Users
+     * 
+     * Retrieves and displays all users as JSON objects
+     * If no users are found, returns a 404 error
+     * 
+     * @return void
+     */
     public function index() {
         $users = Users::all();
 
@@ -27,6 +44,16 @@ class UsersController implements IcrudController {
         $this->render($users);
     }
 
+    /**
+     * Get Single User
+     * 
+     * Displays details of a specific user by ID
+     * Validates the user ID and returns an error if validation fails
+     * If the user is not found, returns a 404 error
+     *
+     * @param string $id The ID of the user to retrieve
+     * @return void
+     */
     public function show($id) {
         $data = ['user_id' => $id];
         
@@ -53,6 +80,15 @@ class UsersController implements IcrudController {
         $this->render($user);
     }
 
+    /**
+     * Creates a new user
+     * 
+     * Creates a new user based on the provided data
+     * Validates the user data and returns an error if validation fails
+     * If user creation fails, returns a 500 error
+     * 
+     * @return void
+     */
     public function create() {
         $data = Utilities::deserialiseJson();
         
@@ -93,6 +129,16 @@ class UsersController implements IcrudController {
         $this->render(['status' => 'success', 'message' => 'User created successfully']);
     }
 
+    /**
+     * Updates a user
+     * 
+     * Updates a user with new data based on the provided ID
+     * Validates the user data and returns an error if validation fails
+     * If user is not found, returns a 404 error
+     * 
+     * @param string $id The ID of the user to update
+     * @return void
+     */
     public function update($id) {
         $data = ['user_id' => $id] + Utilities::deserialiseJson();
         
@@ -132,6 +178,16 @@ class UsersController implements IcrudController {
         $this->render(['status' => 'success', 'message' => 'User updated successfully']);
     }
 
+    /**
+     * Deletes a user
+     * 
+     * Deletes a user based on the provided ID
+     * Validates the user ID and returns an error if validation fails
+     * If user deletion fails, returns a 500 error
+     * 
+     * @param string $id The ID of the user to delete
+     * @return void
+     */
     public function delete($id) {
         $data = ['user_id' => $id];
         
@@ -158,6 +214,15 @@ class UsersController implements IcrudController {
         $this->render(['status' => 'success', 'message' => 'User deleted successfully']);
     }
 
+    /**
+     * Get courses for a user
+     * 
+     * Retrieves the courses a user is enrolled in
+     * If no courses are found, returns a 404 error
+     * 
+     * @param string $id The ID of the user to retrieve courses for
+     * @return void
+     */
     public function courses($id) {
         $data = ['user_id' => $id];
         
@@ -184,6 +249,11 @@ class UsersController implements IcrudController {
         $this->render($enrolments);
     }
 
+    /**
+     * Renders the response data as a JSON response
+     * 
+     * @param array $data The data to be sent in the response
+     */
     private function render($data) {
         require __DIR__ . '/../views/json.php';
     }

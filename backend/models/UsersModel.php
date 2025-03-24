@@ -9,9 +9,25 @@ use Dotenv\Dotenv;
 require_once __DIR__ . '/../interfaces/ICrudModel.php';
 require_once __DIR__ . '/../classes/Database.php';
 
+/**
+ * Class UsersModel
+ *
+ * Handles database operations related to users
+ * This class implements CRUD operations for managing users
+ *
+ * @package Backend\Models
+ */
 class UsersModel implements ICrudModel {
+
+    /**
+     * Retrieves all users from the database
+     *
+     * This method fetches all users along with their details such as
+     * email, first name, last name, job title, access level, login attempts, and last login attempt
+     *
+     * @return array List of users with their details
+     */
     public static function all() {
-        // Logic to get all users
         $db = new Database();
         $sql = "
             SELECT
@@ -30,8 +46,15 @@ class UsersModel implements ICrudModel {
         return $result;
     }
 
+    /**
+     * Finds a specific user by their ID or email
+     *
+     * This method retrieves the details of a user identified by their unique user ID or email
+     *
+     * @param string $id The user ID or email
+     * @return array User details
+     */
     public static function find($id) {
-        // Logic to find a user by ID
         $db = new Database();
         $sql = "
             SELECT
@@ -53,8 +76,15 @@ class UsersModel implements ICrudModel {
         return $result;
     }
 
+    /**
+     * Creates a new user
+     *
+     * This method inserts a new user record into the database using the provided data
+     *
+     * @param array $data The user data including email, first name, last name, password, job title, and access level
+     * @return bool The result of the insert operation
+     */
     public static function create($data) {
-        // Logic to create a new user
         require_once __DIR__ . "/../vendor/autoload.php";
         $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
         $dotenv->load();
@@ -99,8 +129,16 @@ class UsersModel implements ICrudModel {
         return $result;
     }
 
+    /**
+     * Updates a user
+     *
+     * This method updates an existing user's details in the database based on the provided ID and data
+     *
+     * @param string $id The user ID to be updated
+     * @param array $data The new user data
+     * @return bool The result of the update operation
+     */
     public static function update($id, $data) {
-        // Logic to update a user
         $db = new Database();
         $sql = "
             UPDATE user_details
@@ -121,24 +159,38 @@ class UsersModel implements ICrudModel {
             $data['access_level'],
             $id
         ];
-        $result = $db->executeNonQuery($sql, $params);
-        return $result;        
+        $success = $db->executeNonQuery($sql, $params);
+        return $success;        
     }
 
+    /**
+     * Deletes a user by their ID
+     *
+     * This method deletes a user record from the database using the specified user ID
+     *
+     * @param string $id The user ID to be deleted
+     * @return bool The result of the delete operation
+     */
     public static function delete($id) {
-        // Logic to delete a user
         $db = new Database();
         $sql = "
             DELETE FROM user_details
             WHERE user_id = ?
         ";
         $params = ['s', $id];
-        $result = $db->executeNonQuery($sql, $params);
-        return $result;
+        $success = $db->executeNonQuery($sql, $params);
+        return $success;
     }
 
+    /**
+     * Retrieves all courses a user is enrolled in
+     *
+     * This method fetches all courses along with their details that a specific user is enrolled in
+     *
+     * @param string $id The user ID
+     * @return array List of courses with their details
+     */
     public static function courses($id) {
-        // Logic to get all enrolments
         $db = new Database();
         $sql = "
             SELECT
@@ -165,8 +217,15 @@ class UsersModel implements ICrudModel {
         return $result;
     }
 
+    /**
+     * Checks if a user exists by their email
+     *
+     * This method checks if a user exists in the database using the specified email
+     *
+     * @param string $email The user's email
+     * @return bool The result of the existence check
+     */
     public static function existsByEmail($email) {
-        // Logic to check if a user exists
         $db = new Database();
         $sql = "
             SELECT
