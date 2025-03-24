@@ -15,8 +15,8 @@ const course = ref({
   course_id: '',
   course_title: '',
   course_date: '',
-  course_duration: 1,
-  max_attendees: 1,
+  course_duration: 0,
+  max_attendees: 0,
   description: '',
 });
 
@@ -35,10 +35,7 @@ const htmlDateToDate = (dateString) => {
 // TODO: Refactor to use vuex
 const fetchCourse = async () => {
   try {
-    const response = await _axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/courses/${courseId}`, {
-      withCredentials: true,
-    }
-    );
+    const response = await _axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/courses/${courseId}`);
     // Populate the form
     course.value = {
       course_id: response.data[0].course_id,
