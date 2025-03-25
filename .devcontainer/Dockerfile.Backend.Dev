@@ -25,10 +25,6 @@ RUN groupadd -g 1000 dev && \
 # Set up sudo to allow no-password sudo for "dev"
 RUN echo "dev ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# Copy custom .bashrc from .devcontainer directory to the dev user's home directory
-COPY .bashrc /home/dev/.bashrc
-RUN chown dev:dev /home/dev/.bashrc
-
 # Set the working directory
 WORKDIR /var/www/html
 
