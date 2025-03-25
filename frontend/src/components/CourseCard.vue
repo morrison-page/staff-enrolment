@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { defineProps, computed, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import axios from 'axios';
 import _axios from '@/config/axios';
 
 interface Enrolment {
@@ -55,6 +56,30 @@ const store = useStore();
 const userId = computed(() => store.getters['auth/user'].user_id);
 const totalAttendees = ref(props.totalAttendees);
 
+// Reactive variable to store the image URL
+const courseImage = ref('../assets/card-image.jpg');
+
+// Fetch image from Pexels API
+async function fetchCourseImage() {
+  try {
+    const response = await axios.get(`https://api.pexels.com/v1/search?query=${props.title}`, {
+      headers: {
+        Authorization: import.meta.env.VITE_PEXELS_API_KEY,
+      }
+    });
+    if (response.data.photos && response.data.photos.length > 0) {
+      courseImage.value = response.data.photos[0].src.medium;
+    }
+  } catch (error) {
+    console.error('Error fetching course image:', error);
+  }
+}
+
+// Call fetchCourseImage on component mount
+onMounted(() => {
+  fetchCourseImage();
+  fetchEnrolments();
+});
 
 // Enrolments ------------------------------------------------------------------#
 const enrolments = ref<Enrolment[]>([]);
@@ -66,9 +91,6 @@ async function fetchEnrolments() {
     console.error('Error fetching enrolments:', error);
   }
 };
-onMounted(() => {
-  fetchEnrolments();
-});
 
 // Component State -------------------------------------------------------------#
 function isUnavailable(): boolean {
@@ -113,7 +135,7 @@ function isPastDate(date: string): boolean {
 
 <template>
   <div class="card shadow-sm">
-    <!-- <img src="../assets/card-image.jpg" class="card-img-top" alt="Course Image"> -->
+    <img :src="courseImage" class="card-img-top" alt="Course Image">
     <div class="card-body d-flex flex-column">
       <h5 class="card-title">{{ props.title }}</h5>
       <p class="card-text description-text">{{ props.description }}</p>
@@ -149,6 +171,14 @@ function isPastDate(date: string): boolean {
 
 .card {
   padding: 0;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 150px; /* Set a fixed height */
+  object-fit: cover; /* Ensure the image covers the area without distortion */
+  object-position: center; /* Center the image within the frame */
+  object-fit: cover; /* Ensure the image covers the area without distortion */
 }
 
 .card-title {
