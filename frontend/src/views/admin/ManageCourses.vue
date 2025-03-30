@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
@@ -76,6 +76,8 @@ const filteredHistoricCourses = computed<Course[]>(() => {
     (course.course_title.toLowerCase().includes(query) || course.course_date.includes(query))
   );
 });
+
+watch(router, fetchCourses, { immediate: true });
 
 onMounted(() => {
   fetchCourses();
