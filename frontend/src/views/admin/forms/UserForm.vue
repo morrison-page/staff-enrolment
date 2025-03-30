@@ -38,7 +38,7 @@ const fetchUser = async () => {
 const handleCancel = () => { router.push('/manage/users'); };
 
 const validatePassword = (password) => {
-  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,50}$/;
+  const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,50}$/;
   return regex.test(password);
 };
 
@@ -47,7 +47,7 @@ const handleSubmit = async () => {
   const passwordInput = form.querySelector('#password');
   passwordInput.setCustomValidity('');
 
-  if (form.checkValidity() === false || user.value.password !== matchingPassword.value || !validatePassword(user.value.password)) {
+  if (form.checkValidity() === false || !validatePassword(user.value.password)) {
     if (!validatePassword(user.value.password)) {
       passwordInput.setCustomValidity('Password must be 8-50 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.');
     }
