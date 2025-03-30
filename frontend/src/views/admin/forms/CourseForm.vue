@@ -35,7 +35,7 @@ const htmlDateToDate = (dateString) => {
 // TODO: Refactor to use vuex
 const fetchCourse = async () => {
   try {
-    const response = await _axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/courses/${courseId}`);
+    const response = await _axios.get(`/courses/${courseId}`);
     // Populate the form
     course.value = {
       course_id: response.data[0].course_id,
