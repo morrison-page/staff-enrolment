@@ -27,7 +27,7 @@ class AuthMiddleware {
     public static function validateToken() {
         if (!isset($_COOKIE['token'])) {
             http_response_code(401); // unauthorised
-            self::render(['status' => 'error', 'message' => 'Missing Cookie Token']);
+            self::render(['status' => 'error', 'message' => 'Invalid Token']);
             exit;
         }
 
@@ -38,13 +38,13 @@ class AuthMiddleware {
             // Check if token has expired
             if ($payload['exp'] < time()) {
                 http_response_code(401); // Unauthorised
-                self::render(['status' => 'error', 'message' => 'Token has expired']);
+                self::render(['status' => 'error', 'message' => 'Invalid Token']);
                 exit;
             }
             return;
         } catch (\Exception $e) {
             http_response_code(401); // Unauthorised
-            self::render(['status' => 'error', 'message' => 'Dodgey token brev']);
+            self::render(['status' => 'error', 'message' => 'Invalid Token']);
             exit;
         }
     }
