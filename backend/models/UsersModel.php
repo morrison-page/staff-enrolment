@@ -97,7 +97,7 @@ class UsersModel implements ICrudModel {
         $options = [
             'memory_cost' => 1<<18, // 256 MB
             'time_cost' => 12,      // 12 iterations
-            'threads' => 4          // 4 threads
+            'threads' => 1          // 1 thread (Had to change for compatability issues)
         ];
         $hashedPassword = password_hash($seasonedPassword, PASSWORD_ARGON2ID, $options);
 

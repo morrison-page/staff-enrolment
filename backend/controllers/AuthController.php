@@ -41,7 +41,7 @@ class AuthController {
 
         $validation = (new Validation())->validate($data, [
             'email' => 'required|min:4|max:255|email',
-            'password' => 'required|min:6', // TODO: Revisit and add more password complexity requirements
+            'password' => 'required|min:6',
         ]);
 
         if ($validation->failed()) {
