@@ -91,7 +91,7 @@ class Database {
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_row();
-        return $row[0];
+        return $row ? $row[0] : null;
     }
 
     /**

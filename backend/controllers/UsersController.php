@@ -100,7 +100,7 @@ class UsersController implements IcrudController {
             'last_name' => 'required|min:2|max:100',
             'job_title' => 'required|min:2|max:100',
             'access_level' => 'required|min:4|max:5|in:user,admin',
-            'password' => 'required|min:6', // TODO: Revisit to add more complex password requirements
+            'password' => 'required|min:6',
             'job_title' => 'required|min:2|max:100',
         ]);
 
@@ -110,9 +110,9 @@ class UsersController implements IcrudController {
             return;
         }
         
-        $user = Users::existsByEmail($data['email']);
+        $email = Users::existsByEmail($data['email']);
 
-        if (!empty($user)) {
+        if (!empty($email)) {
             http_response_code(409); // Conflict
             $this->render(['status' => 'error', 'message' => 'User already exists']);
             return;
