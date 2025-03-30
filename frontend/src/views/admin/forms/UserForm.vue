@@ -24,12 +24,11 @@ const user = ref({
 });
 
 const formRef = ref(null);
-const matchingPassword = ref('');
 
 const fetchUser = async () => {
   try {
     const response = await _axios.get(`/users/${userId}`);
-    user.value = response.data[0]; // Populate the form
+    user.value = Object.assign(user.value, response.data[0]); // Populate the form
   } catch (error) {
     console.error("Error fetching user data: ", error);
   }
@@ -45,10 +44,14 @@ const validatePassword = (password) => {
 const handleSubmit = async () => {
   const form = formRef.value;
   const passwordInput = form.querySelector('#password');
-  passwordInput.setCustomValidity('');
 
-  if (form.checkValidity() === false || !validatePassword(user.value.password)) {
-    if (!validatePassword(user.value.password)) {
+  // Check if the password field exists
+  if (passwordInput) {
+    passwordInput.setCustomValidity('');
+  }
+
+  if (form.checkValidity() === false || (passwordInput && !validatePassword(user.value.password))) {
+    if (passwordInput && !validatePassword(user.value.password)) {
       passwordInput.setCustomValidity('Password must be 8-50 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.');
     }
     form.classList.add('was-validated');
