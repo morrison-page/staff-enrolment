@@ -40,7 +40,15 @@ const fetchEnrolments = async () => {
 // TODO: Refactor to use vuex
 const deleteEnrolment = async (enrolmentId: string) => {
   try {
-    await _axios.delete(`/enrolments/${enrolmentId}`);
+    const enrolment = enrolments.value.find(e => e.enrolment_id === enrolmentId);
+    if (enrolment) {
+      await _axios.delete('/enrolments', {
+      data: {
+        course_id: enrolment.course_id,
+        user_id: enrolment.user_id
+      }
+      });
+    }
     await fetchEnrolments();
   } catch (error) {
     console.error('Error deleting enrolment:', error);
